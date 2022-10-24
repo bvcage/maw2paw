@@ -1,3 +1,3 @@
 class ClinicSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :name, :address, :phone, :fax, :email
 end

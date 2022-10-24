@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :users
   resources :clinics, only: [:index, :show]
   resources :vets, only: [:index, :show]
   resources :pets, only: [:index, :show]

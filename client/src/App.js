@@ -1,25 +1,38 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { Route, Routes, useNavigate } from 'react-router-dom'
+import Home from './components/Home'
+import Login from './components/Login'
 
 function App() {
-  const [count, setCount] = useState(0);
+   const [user, setUser] = useState()
+   const navigate = useNavigate()
 
-  useEffect(() => {
-    fetch("/hello")
-      .then((r) => r.json())
-      .then((data) => setCount(data.count));
-  }, []);
+   useEffect(() => {
+      fetch('/me').then(r=>{
+         if (r.ok) {
+            r.json().then(user => {
+               setUser(user)
+               // navigate('/main')
+            })
+         } else {
+            console.log(r)
+         }
+      })
+   }, [])
 
-  return (
-    <BrowserRouter>
+   function onLogin (user) {
+      setUser(user)
+      // navigate('/main')
+   }
+
+   return (
       <div className="App">
-        <Routes>
-          <Route path="/testing" element={<h1>Testing path</h1>}/>
-          <Route path="/" element={<h1>Page Count: {count}</h1>}/>
-        </Routes>
+         <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login onLogin={onLogin} />} />
+         </Routes>
       </div>
-    </BrowserRouter>
-  );
+   )
 }
 
-export default App;
+export default App

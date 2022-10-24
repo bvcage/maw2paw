@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users
+  resources :users, only: [:show]
   resources :clinics, only: [:index, :show]
   resources :vets, only: [:index, :show]
   resources :pets, only: [:index, :show]
@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   resources :visits, only: [:index, :show]
   
   get '/hello', to: 'application#hello_world'
+
+  get '/me', to: 'users#show'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
 
   get '*path',
       to: 'fallback#index',

@@ -7,6 +7,8 @@ import Login from './components/Login'
 import SignUp from './components/SignUp'
 import './App.css'
 import VisitsList from './components/visits/VisitsList'
+import VisitsContainer from './components/visits/VisitsContainer'
+import VisitForm from './components/visits/VisitForm'
 
 function App () {
    const [user, setUser] = useState(null)
@@ -45,9 +47,7 @@ function App () {
             <Route path="login" element={<Login onLogin={onLogin} />} />
             <Route path="signup" element={<SignUp onSignup={onSignup} />} />
             <Route path="dash" element={<Dashboard onLogout={onLogout} user={user} />}>
-               <Route path="search" />
-               <Route path="today" />
-               <Route path="visits" element={<VisitsList />} />
+               <Route path="visits/*" element={<VisitsContainer />} />
             </Route>
          </Routes>
       </div>

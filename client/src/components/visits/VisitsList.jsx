@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react'
 import VisitCard from './VisitCard'
 
 function VisitsList (props) {
-
-   const [visits, setVisits] = useState([])
-
-   useEffect(() => {
-      fetch('/visits').then(r=>r.json()).then(data=>setVisits(data))
-   }, [])
+   const { visits } = props
 
    function isToday (date) {
       const today = new Date()

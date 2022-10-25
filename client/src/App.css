@@ -1,3 +1,19 @@
 html, body {
    background-color: #5d6168;
 }
+
+.dropdown {
+   position: relative;
+}
+
+.dropdown-content {
+   display: none;
+   max-height: 500px;
+   overflow: auto;
+   position: absolute;
+   z-index: 1;
+}
+
+.show {
+   display: block;
+}

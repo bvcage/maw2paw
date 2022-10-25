@@ -1,8 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 function NavBar (props) {
    const { onLogout } = props
+
+   const location = useLocation()
 
    function handleLogout () {
       fetch('/logout', {
@@ -12,7 +14,9 @@ function NavBar (props) {
 
    return (
       <nav className="navbar">
-         <Link to="../dash">dashboard</Link>
+         <Link to="dashboard">dashboard</Link>
+         <Link to="pets">pets</Link>
+         <Link to="pets/new">new pet</Link>
          <Link to="visits">today's visits</Link>
          <Link to="visits/new">new visit</Link>
          <button type="button" onClick={() => handleLogout()}>logout</button>

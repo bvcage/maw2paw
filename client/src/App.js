@@ -3,11 +3,10 @@ import { Route, Routes, useNavigate } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
 import Home from './components/Home'
 import Login from './components/Login'
-import Main from './components/Main'
 import SignUp from './components/SignUp'
 
 function App () {
-   const [user, setUser] = useState()
+   const [user, setUser] = useState(null)
    const navigate = useNavigate()
 
    useEffect(() => {
@@ -15,7 +14,7 @@ function App () {
          if (r.ok) {
             r.json().then(user => {
                setUser(user)
-               navigate('/dash')
+               navigate('/dashboard')
             })
          }
       })
@@ -23,7 +22,7 @@ function App () {
 
    function onLogin (user) {
       setUser(user)
-      navigate('/dash')
+      navigate('/dashboard')
    }
 
    function onLogout () {
@@ -33,7 +32,7 @@ function App () {
 
    function onSignup (user) {
       setUser(user)
-      navigate('/dash')
+      navigate('/dashboard')
    }
 
    return (
@@ -42,8 +41,8 @@ function App () {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login onLogin={onLogin} />} />
             <Route path="/signup" element={<SignUp onSignup={onSignup} />} />
-            <Route element={<Main onLogout={onLogout} />}>
-               <Route path="/dash" element={<Dashboard user={user} />} />
+            <Route path="/dashboard" element={<Dashboard onLogout={onLogout} />}>
+               
             </Route>
          </Routes>
       </div>

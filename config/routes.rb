@@ -7,7 +7,7 @@ Rails.application.routes.draw do
    resources :owners, only: [:index, :show] do
       resources :pets, only: [:index, :show]
    end
-   resources :visits, only: [:index, :show]
+   resources :visits, only: [:index, :show, :create]
 
    get '/auth', to: 'users#show'
    post '/login', to: 'sessions#create'

@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function VisitForm (props) {
-   const [owner, setOwner] = useState("")
+
+   const { onNewVisit } = props
+
+   const today = new Date()
+   const [date, setDate] = useState(today.getFullYear() + "-" +
+      ( "0" + (today.getMonth() + 1) ).slice(-2) + "-" +
+      ( "0" + today.getDate() ).slice(-2) )
+   const [time, setTime] = useState("12:00")
+   const [owner, setOwner] = useState({full_name: ""})
    const [owners, setOwners] = useState([])
-   const [pet, setPet] = useState("")
+   const [pet, setPet] = useState({name: ""})
    const [pets, setPets] = useState([])
    const [vet, setVet] = useState(0)
    const [vets, setVets] = useState([])
 
+   const navigate = useNavigate()
+
    const context = {
       "owners": owners,
+      "setDate": setDate,
+      "setTime": setTime,
       "setOwner": setOwner,
       "setOwners": setOwners,
       "setPet": setPet,
@@ -30,12 +43,8 @@ function VisitForm (props) {
       const name = e.target.name
       document.getElementById(name + "Dropdown").classList.remove("show")
       // when owner selected, load pets array
-      if (!!owner && name === "owner") {
-         fetch(`/owners?name=${owner}`).then(r=>r.json()).then(data => {
-            if (data.length === 1 && !!data[0].id) {
-               fetch(`/owners/${data[0].id}/pets`).then(r=>r.json()).then(data => setPets(data))
-            }
-         })
+      if (!!owner.id && name === "owner") {
+         fetch(`/owners/${owner.id}/pets`).then(r=>r.json()).then(data => setPets(data))
       }
    }
 
@@ -46,11 +55,13 @@ function VisitForm (props) {
       const func = `set${name.charAt(0).toUpperCase() + name.slice(1)}`
       execFn(func, context, value)
       // search as user types
-      fetch(`/${name}s?name=${value}`)
-         .then(r=>r.json())
-         .then(data => {
-            execFn(func+'s', context, data)
-         })
+      if (name === ("owner" || "pet")) {
+         fetch(`/${name}s?name=${value}`)
+            .then(r=>r.json())
+            .then(data => {
+               execFn(func+'s', context, data)
+            })
+      }
    }
 
    function handleFocus (e) {
@@ -59,18 +70,21 @@ function VisitForm (props) {
 
    function handleSubmit (e) {
       e.preventDefault()
-      console.log(owner)
-      // fetch('/visits', {
-      //    method: 'POST',
-      //    headers: {
-      //       'Content-Type': 'application/json'
-      //    },
-      //    body: JSON.stringify({
-      //       "owner": owner,
-      //       "pet": pet,
-      //       "vet": vet
-      //    })
-      // })
+      const schedule = new Date(`${date} ${time}`).toISOString()
+      fetch('/visits', {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            "pet_id": pet.id,
+            "vet_id": vet,
+            "schedule": schedule
+         })
+      }).then(r=>r.json()).then(data => {
+         onNewVisit(data)
+         navigate(-1)
+      })
    }
 
    const ownersList = owners.map(owner => {
@@ -80,7 +94,7 @@ function VisitForm (props) {
             name="owner"
             key={owner.id}
             onMouseDown={() => {
-               setOwner(name)
+               setOwner(owner)
                document.getElementById("ownerDropdown").classList.remove("show")
             }}
             >{name}
@@ -93,7 +107,7 @@ function VisitForm (props) {
          <div name="pet"
             key={pet.id}
             onMouseDown={() => {
-               setPet(pet.name)
+               setPet(pet)
                document.getElementById("petDropdown").classList.remove("show")
             }}
             >{pet.name}
@@ -126,8 +140,7 @@ function VisitForm (props) {
                type="text"
                className="form-control"
                placeholder="owner"
-               autoComplete="off"
-               value={owner}
+               value={owner.full_name}
                onBlur={handleBlur}
                onChange={handleChange}
                onFocus={handleFocus}
@@ -146,7 +159,7 @@ function VisitForm (props) {
                type="text"
                className="form-control"
                placeholder="pet"
-               value={pet}
+               value={pet.name}
                onBlur={handleBlur}
                onChange={handleChange}
                onFocus={handleFocus}
@@ -158,13 +171,26 @@ function VisitForm (props) {
          </div>
 
          <label>vet</label>
-         <select className="form-select" defaultValue="label">
-            <option disabled value="label">vet</option>
-            {vetsList}
+         <select
+            name="vet"
+            className="form-select"
+            defaultValue={ !!vet ? vet : "label" }
+            onChange={handleChange} >
+               <option disabled value="label">vet</option>
+               {vetsList}
          </select>
 
-         <input type="date" />
-         <input type="time" />
+         <label>schedule</label>
+         <input 
+            name="date"
+            type="date"
+            value={date}
+            onChange={handleChange} />
+         <input
+            name="time"
+            type="time"
+            value={time}
+            onChange={handleChange} />
 
          <button type="submit">submit</button>
       </form>

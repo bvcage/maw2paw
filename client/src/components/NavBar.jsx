@@ -12,8 +12,9 @@ function NavBar (props) {
 
    return (
       <nav className="navbar">
-         <Link to="../dash">DASH</Link>
-         <Link to="visits">VISITS</Link>
+         <Link to="../dash">dashboard</Link>
+         <Link to="visits">today's visits</Link>
+         <Link to="visits/new">new visit</Link>
          <button type="button" onClick={() => handleLogout()}>logout</button>
       </nav>
    )

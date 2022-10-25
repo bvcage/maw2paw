@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import VisitCard from './VisitCard'
+import React from 'react'
 
 function VisitsList (props) {
    const { visits } = props

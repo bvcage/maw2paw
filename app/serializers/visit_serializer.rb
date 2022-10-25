@@ -1,3 +1,5 @@
 class VisitSerializer < ActiveModel::Serializer
-  attributes :id, :schedule, :checkin, :diagnosis, :note, :vet_id, :pet_id
+  attributes :id, :schedule, :checkin, :diagnosis, :note
+  belongs_to :pet
+  belongs_to :vet
 end

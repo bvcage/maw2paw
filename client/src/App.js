@@ -6,9 +6,7 @@ import Home from './components/Home'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import './App.css'
-import VisitsList from './components/visits/VisitsList'
 import VisitsContainer from './components/visits/VisitsContainer'
-import VisitForm from './components/visits/VisitForm'
 
 function App () {
    const [user, setUser] = useState(null)
@@ -31,7 +29,7 @@ function App () {
 
    function onLogout () {
       setUser(null)
-      // navigate('/')
+      navigate('/')
    }
 
    function onSignup (user) {

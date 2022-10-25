@@ -4,7 +4,9 @@ Rails.application.routes.draw do
    resources :vets, only: [:index, :show]
    resources :pets, only: [:index, :show]
    resources :pet_owners, only: [:index]
-   resources :owners, only: [:index, :show]
+   resources :owners, only: [:index, :show] do
+      resources :pets, only: [:index, :show]
+   end
    resources :visits, only: [:index, :show]
 
    get '/auth', to: 'users#show'

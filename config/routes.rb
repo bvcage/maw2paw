@@ -9,7 +9,7 @@ Rails.application.routes.draw do
    
    get '/hello', to: 'application#hello_world'
 
-   get '/me', to: 'users#show'
+   get '/auth', to: 'users#show'
    post '/login', to: 'sessions#create'
    delete '/logout', to: 'sessions#destroy'
 

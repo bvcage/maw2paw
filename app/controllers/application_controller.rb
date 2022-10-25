@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
    include ActionController::Cookies
 
+   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid_message
    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found_message
 
    def hello_world
@@ -8,8 +9,12 @@ class ApplicationController < ActionController::API
       render json: { count: session[:count] }
    end
 
+   def record_invalid_message error
+      render json: { error: "#{error.full_message}"}, status: :unprocessable_entity
+   end
+
    def record_not_found_message error
-      render json: {error: "#{error.model} not found"}, status: :not_found
+      render json: { error: "#{error.model} not found" }, status: :not_found
    end
 
 end

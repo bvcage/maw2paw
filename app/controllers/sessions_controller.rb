@@ -1,9 +1,17 @@
 class SessionsController < ApplicationController
 
    def create
-      user = User.find_or_create_by(user_params)
-      session[:user_id] = user.id
-      render json: user
+      user = User.find_by(username: params[:username])
+      if user&.authenticate(params[:password])
+         session[:user_id] = user.id
+         render json: user, status: :ok
+      elsif !user
+         render json: { error: "Username does not exist"}, status: :not_found
+      elsif !user.authenticate(params[:password])
+         render json: { error: "Incorrect password" }, status: :unauthorized
+      else
+         render json: { error: "Authentication error" }, status: :unauthorized
+      end
    end
 
    def destroy
@@ -14,7 +22,7 @@ class SessionsController < ApplicationController
    private
 
    def user_params
-      params.permit(:username)
+      params.permit(:username, :password)
    end
 
 end

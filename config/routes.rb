@@ -6,8 +6,6 @@ Rails.application.routes.draw do
    resources :pet_owners, only: [:index]
    resources :owners, only: [:index, :show]
    resources :visits, only: [:index, :show]
-   
-   get '/hello', to: 'application#hello_world'
 
    get '/auth', to: 'users#show'
    post '/login', to: 'sessions#create'

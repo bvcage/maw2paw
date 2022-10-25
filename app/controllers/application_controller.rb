@@ -6,11 +6,6 @@ class ApplicationController < ActionController::API
    rescue_from ActiveRecord::RecordInvalid, with: :record_invalid_message
    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found_message
 
-   def hello_world
-      session[:count] = (session[:count] || 0) + 1
-      render json: { count: session[:count] }
-   end
-
    def authorized
       return render json: { error: "Not Authorized" }, status: :unauthorized unless session.include? :user_id
    end

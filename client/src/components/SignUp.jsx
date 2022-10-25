@@ -1,42 +1,29 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
-function Login (props) {
-   const { onLogin } = props
+function SignUp (props) {
+   const { onSignup } = props
 
-   const [errors, setErrors] = useState([])
+   const [confirmation, setConfirmation] = useState("")
    const [password, setPassword] = useState("")
    const [username, setUsername] = useState("")
 
-   const navigate = useNavigate()
-
    function handleSubmit (e) {
       e.preventDefault()
-      if (!username || !password) { return }
-      fetch('/login', {
+      fetch('/users', {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
          },
          body: JSON.stringify({
             "username": username,
-            "password": password
+            "password": password,
+            "password_confirmation": confirmation
          })
-      }).then(r=>{
+      }).then(r => {
          if (r.ok) {
-            r.json().then(user => onLogin(user))
+            r.json().then(user => onSignup(user))
          } else {
-            switch (r.status) {
-               case 404:
-                  navigate('/signup')
-                  break;
-               case 401:
-                  // 3 tries to login
-                  break;
-               default:
-                  r.json().then(err => setErrors(Object.entries(err.error).flat()))
-                  break;
-            }
+            console.log(r)
          }
       })
    }
@@ -55,9 +42,15 @@ function Login (props) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
          />
-         <button type="submit">login</button>
+         <input
+            name="confirmation"
+            type="password"
+            value={confirmation}
+            onChange={(e) => setConfirmation(e.target.value)}
+         />
+         <button type="submit">sign-up</button>
       </form>
    )
 }
 
-export default Login
+export default SignUp

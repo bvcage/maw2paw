@@ -6,6 +6,7 @@ import Home from './components/Home'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import './App.css'
+import VisitsList from './components/visits/VisitsList'
 
 function App () {
    const [user, setUser] = useState(null)
@@ -16,7 +17,6 @@ function App () {
          if (r.ok) {
             r.json().then(user => {
                setUser(user)
-               navigate('/dash')
             })
          }
       })
@@ -29,7 +29,7 @@ function App () {
 
    function onLogout () {
       setUser(null)
-      navigate('/')
+      // navigate('/')
    }
 
    function onSignup (user) {
@@ -41,13 +41,13 @@ function App () {
       <div className="App">
          <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login onLogin={onLogin} />} />
-            <Route path="/signup" element={<SignUp onSignup={onSignup} />} />
-            <Route path="/dash" element={<Dashboard onLogout={onLogout} user={user} />}>
+            <Route path="about" element={<About />} />
+            <Route path="login" element={<Login onLogin={onLogin} />} />
+            <Route path="signup" element={<SignUp onSignup={onSignup} />} />
+            <Route path="dash" element={<Dashboard onLogout={onLogout} user={user} />}>
                <Route path="search" />
                <Route path="today" />
-               <Route path="visits" />
+               <Route path="visits" element={<VisitsList />} />
             </Route>
          </Routes>
       </div>

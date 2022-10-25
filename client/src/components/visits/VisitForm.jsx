@@ -5,7 +5,6 @@ function VisitForm (props) {
    const [owners, setOwners] = useState([])
    const [pet, setPet] = useState("")
    const [pets, setPets] = useState([])
-   const [showPetDrop, setShowPetDrop] = useState(false)
    const [vet, setVet] = useState(0)
    const [vets, setVets] = useState([])
 
@@ -19,7 +18,6 @@ function VisitForm (props) {
 
    useEffect(() => {
       fetch('/owners').then(r=>r.json()).then(f=>setOwners(f))
-      fetch('/pets').then(r=>r.json()).then(f=>setPets(f))
       fetch('/vets').then(r=>r.json()).then(f=>setVets(f))
    }, [])
 
@@ -29,7 +27,16 @@ function VisitForm (props) {
    }
 
    function handleBlur (e) {
-      document.getElementById(e.target.name + "Dropdown").classList.remove("show")
+      const name = e.target.name
+      document.getElementById(name + "Dropdown").classList.remove("show")
+      // when owner selected, load pets array
+      if (!!owner && name === "owner") {
+         fetch(`/owners?name=${owner}`).then(r=>r.json()).then(data => {
+            if (data.length === 1 && !!data[0].id) {
+               fetch(`/owners/${data[0].id}/pets`).then(r=>r.json()).then(data => setPets(data))
+            }
+         })
+      }
    }
 
    function handleChange (e) {
@@ -140,7 +147,9 @@ function VisitForm (props) {
                className="form-control"
                placeholder="pet"
                value={pet}
+               onBlur={handleBlur}
                onChange={handleChange}
+               onFocus={handleFocus}
                disabled={owner ? false : true}
             />
             <div id="petDropdown" className="dropdown-content">

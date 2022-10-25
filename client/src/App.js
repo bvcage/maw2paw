@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
+import About from './components/About'
 import Dashboard from './components/Dashboard'
 import Home from './components/Home'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
+import './App.css'
 
 function App () {
    const [user, setUser] = useState(null)
@@ -14,7 +16,7 @@ function App () {
          if (r.ok) {
             r.json().then(user => {
                setUser(user)
-               navigate('/dashboard')
+               navigate('/dash')
             })
          }
       })
@@ -22,7 +24,7 @@ function App () {
 
    function onLogin (user) {
       setUser(user)
-      navigate('/dashboard')
+      navigate('/dash')
    }
 
    function onLogout () {
@@ -32,17 +34,20 @@ function App () {
 
    function onSignup (user) {
       setUser(user)
-      navigate('/dashboard')
+      navigate('/dash')
    }
 
    return (
       <div className="App">
          <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login onLogin={onLogin} />} />
             <Route path="/signup" element={<SignUp onSignup={onSignup} />} />
-            <Route path="/dashboard" element={<Dashboard onLogout={onLogout} />}>
-               
+            <Route path="/dash" element={<Dashboard onLogout={onLogout} user={user} />}>
+               <Route path="search" />
+               <Route path="today" />
+               <Route path="visits" />
             </Route>
          </Routes>
       </div>

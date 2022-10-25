@@ -43,22 +43,22 @@ function Login (props) {
 
    return (
       <form onSubmit={handleSubmit}>
-         <div class="form-floating">
+         <div className="form-floating">
             <input
                name="username"
                type="text"
-               class="form-control"
+               className="form-control"
                placeholder="username"
                value={username}
                onChange={(e) => setUsername(e.target.value)}
             />
             <label>username</label>
          </div>
-         <div class="form-floating">
+         <div className="form-floating">
             <input
                name="password"
                type="password"
-               class="form-control"
+               className="form-control"
                placeholder="password"
                value={password}
                onChange={(e) => setPassword(e.target.value)}

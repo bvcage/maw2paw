@@ -9,7 +9,7 @@ Rails.application.routes.draw do
    resources :vets, only: [:index, :show]
    resources :pets, only: [:index, :show, :create]
    resources :pet_owners, only: [:index]
-   resources :owners, only: [:index, :show] do
+   resources :owners, only: [:index, :show, :create] do
       resources :pets, only: [:index, :show]
    end
    resources :visits, only: [:index, :show, :create]

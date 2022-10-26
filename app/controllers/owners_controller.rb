@@ -1,5 +1,10 @@
 class OwnersController < ApplicationController
 
+   def create
+      owner = Owner.create!(owner_params)
+      render json: owner, status: :created
+   end
+
    def index
       owners = Owner.all
       # iterate thru optional search parameters
@@ -16,6 +21,10 @@ class OwnersController < ApplicationController
    end
 
    private
+
+   def owner_params
+      params.permit(:first_name, :last_name, :email, :phone, :address)
+   end
 
    def filter_by_params owners
       params.each do |key, value|

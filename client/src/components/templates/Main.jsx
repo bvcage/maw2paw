@@ -19,6 +19,11 @@ function Main (props) {
       fetch('/pets').then(r=>r.json()).then(setPets)
    }, [])
 
+   function onNewOwner (newOwner) {
+      setOwners([...owners, newOwner])
+      navigate(`owners/${newOwner.id}`)
+   }
+
    function onNewPet (newPet) {
       setPets([...pets, newPet])
       navigate(`pets/${newPet.id}`)
@@ -28,7 +33,7 @@ function Main (props) {
       <Header onLogout={onLogout} />
       <Routes>
          <Route path="dashboard" element={<Dashboard onLogout={onLogout} user={user} />} />
-         <Route path="owners/*" element={<OwnersPage owners={owners} />} />
+         <Route path="owners/*" element={<OwnersPage onNewOwner={onNewOwner} owners={owners} />} />
          <Route path="pets/*"
             element={<PetsPage
                onNewPet={onNewPet}

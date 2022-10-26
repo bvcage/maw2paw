@@ -5,7 +5,8 @@ function OwnerProfile (props) {
    const { owners } = props
    const params = useParams()
    const owner = owners.find(owner => owner.id === parseInt(params.id))
-   const { first_name, last_name, full_name, phone, email, address } = owner
+   console.log(owner)
+   const { full_name, phone, email, address } = owner
 
    return (
       <div>

@@ -5,11 +5,11 @@ import OwnerProfile from './OwnerProfile'
 import OwnersList from './OwnersList'
 
 function OwnersPage (props) {
-   const { owners } = props
+   const { owners, onNewOwner } = props
    return (
       <Routes>
          <Route index element={<OwnersList owners={owners} />} />
-         <Route path="new" element={<NewOwnerForm />} />
+         <Route path="new" element={<NewOwnerForm onNewOwner={onNewOwner} />} />
          <Route path=":id" element={<OwnerProfile owners={owners} />} />
       </Routes>
    )

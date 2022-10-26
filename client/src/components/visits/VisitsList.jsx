@@ -1,7 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function VisitsList (props) {
    const { visits } = props
+
+   const navigate = useNavigate()
 
    function isToday (date) {
       const today = new Date()
@@ -23,8 +26,9 @@ function VisitsList (props) {
    .map(visit => {
       const appt = new Date(visit.schedule)
       return (
-         <tr key={visit.id}>
+         <tr key={visit.id} onClick={() => navigate(`${visit.id}`)}>
             <th scope="row">{appt.toLocaleTimeString("en-US", {hour:'numeric', minute:'numeric'})}</th>
+            <td>{visit.pet.name}</td>
             <td>{visit.pet.name}</td>
             <td>{visit.vet.last_name}</td>
          </tr>
@@ -36,6 +40,7 @@ function VisitsList (props) {
          <thead>
             <tr>
                <th scope="col">time</th>
+               <th scope="col">owner</th>
                <th scope="col">pet</th>
                <th scope="col">vet</th>
             </tr>

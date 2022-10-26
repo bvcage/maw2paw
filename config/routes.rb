@@ -12,7 +12,7 @@ Rails.application.routes.draw do
    resources :owners, only: [:index, :show, :create] do
       resources :pets, only: [:index, :show]
    end
-   resources :visits, only: [:index, :show, :create]
+   resources :visits, only: [:index, :show, :create, :update]
 
    # login / logout
    get '/auth', to: 'users#show'

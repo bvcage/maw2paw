@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import NewVisitForm from './NewVisitForm'
 import VisitsList from './VisitsList'
+import VisitSummary from './VisitSummary'
 
 function VisitsPage (props) {
 
@@ -19,6 +20,7 @@ function VisitsPage (props) {
       <Routes>
          <Route index element={<VisitsList visits={visits} />} />
          <Route path="new" element={<NewVisitForm onNewVisit={onNewVisit} />} />
+         <Route path=":id" element={<VisitSummary />} />
       </Routes>
    )
 }

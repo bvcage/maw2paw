@@ -15,10 +15,16 @@ class VisitsController < ApplicationController
       render json: visit, status: :ok
    end
 
+   def update
+      visit = find_visit
+      visit.update!(visit_params)
+      render json: visit, status: :accepted
+   end
+
    private
 
    def visit_params
-      params.permit(:pet_id, :vet_id, :schedule)
+      params.permit(:pet_id, :vet_id, :schedule, :checkin, :diagnosis, :note)
    end
 
    def find_visit

@@ -15,6 +15,8 @@ function NavBar (props) {
    return (
       <nav className="navbar">
          <Link to="dashboard">dashboard</Link>
+         <Link to="owners">owners</Link>
+         <Link to="owners/new">new owner</Link>
          <Link to="pets">pets</Link>
          <Link to="pets/new">new pet</Link>
          <Link to="visits">today's visits</Link>

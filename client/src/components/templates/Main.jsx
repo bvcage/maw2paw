@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Header from '../Header'
 import Dashboard from '../Dashboard'
+import OwnersPage from '../owners/OwnersPage'
 import PetsPage from '../pets/PetsPage'
 import VisitsContainer from '../visits/VisitsContainer'
 
@@ -27,6 +28,7 @@ function Main (props) {
       <Header onLogout={onLogout} />
       <Routes>
          <Route path="dashboard" element={<Dashboard onLogout={onLogout} user={user} />} />
+         <Route path="owners/*" element={<OwnersPage owners={owners} />} />
          <Route path="pets/*"
             element={<PetsPage
                onNewPet={onNewPet}

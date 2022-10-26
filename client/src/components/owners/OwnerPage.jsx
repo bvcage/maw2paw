@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useParams } from 'react-router-dom'
 import OwnerForm from './OwnerForm'
-import OwnerProfile from './OwnerProfile'
+import OwnerSummary from './OwnerSummary'
 
 function OwnerPage (props) {
 
@@ -21,7 +21,7 @@ function OwnerPage (props) {
    
    return (
       <Routes>
-         <Route index element={<OwnerProfile owner={owner} />} />
+         <Route index element={<OwnerSummary owner={owner} />} />
          <Route path="edit" element={<OwnerForm owner={owner} onEditOwner={handleEditOwner} />} />
       </Routes>
    )

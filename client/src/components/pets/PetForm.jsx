@@ -1,17 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-function NewPetForm (props) {
+function PetForm (props) {
 
-   const { onNewPet, breeds } = props
+   const { onEditPet, onNewPet } = props
 
-   const today = new Date()
+   let today = new Date()
+   today = `${today.getFullYear()}-${("0" + (today.getMonth()+1)).slice(-2)}-${("0" + (today.getDate())).slice(-2)}`
 
-   const [breed, setBreed] = useState("")
-   const [color, setColor] = useState("")
-   const [birthday, setBirthday] = useState(`${today.getFullYear()}-${("0" + (today.getMonth()+1)).slice(-2)}-${("0" + (today.getDate())).slice(-2)}`)
-   const [name, setName] = useState("")
-   const [species, setSpecies] = useState("")
+   const [breed, setBreed] = useState(!!props.pet ? props.pet.breed : "")
+   const [breeds, setBreeds] = useState({})
+   const [color, setColor] = useState(!!props.pet ? props.pet.color : "")
+   const [birthday, setBirthday] = useState(!!props.pet ? props.pet.birthday : today)
+   const [name, setName] = useState(!!props.pet ? props.pet.name : "")
+   const [species, setSpecies] = useState(!!props.pet ? props.pet.species : "")
 
+   useEffect(() => {
+      fetch('/pets/breeds').then(r=>r.json()).then(setBreeds)
+   }, [])
+   
    const context = {
       "setBirthday": setBirthday,
       "setBreed": setBreed,
@@ -47,8 +53,10 @@ function NewPetForm (props) {
 
    function handleSubmit (e) {
       e.preventDefault()
-      fetch('/pets', {
-         method: 'POST',
+      const url = !!props.pet ? `/pets/${props.pet.id}` : '/pets'
+      const method = !!props.pet ? 'PATCH' : 'POST'
+      fetch(url, {
+         method: method,
          headers: {
             'Content-Type': 'application/json'
          },
@@ -60,7 +68,10 @@ function NewPetForm (props) {
             birthday: birthday
          })
       }).then(r=> {
-         if (r.ok) r.json().then(onNewPet)
+         if (r.ok) r.json().then(pet => {
+            if (!!props.pet) onEditPet(pet)
+            else onNewPet(pet)
+         })
          else console.log('error')
       })
    }
@@ -71,7 +82,7 @@ function NewPetForm (props) {
       return string.join(" ")
    }
 
-   const breedsList = species in breeds ?
+   const breedsList = !!breeds && species in breeds ?
       breeds[species].filter(speciesBreed => speciesBreed.toUpperCase().includes(breed.toUpperCase()))
          .map(breed => {
             return (
@@ -168,10 +179,10 @@ function NewPetForm (props) {
             value={birthday}
             onChange={handleChange} />
 
-         <button type="submit">create</button>
+         <button type="submit">{ !!props.pet ? 'update' : 'create' }</button>
 
       </form>
    )
 }
 
-export default NewPetForm
+export default PetForm

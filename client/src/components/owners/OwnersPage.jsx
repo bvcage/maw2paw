@@ -1,16 +1,16 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import NewOwnerForm from './NewOwnerForm'
-import OwnerProfile from './OwnerProfile'
+import OwnerForm from './OwnerForm'
+import OwnerPage from './OwnerPage'
 import OwnersList from './OwnersList'
 
 function OwnersPage (props) {
-   const { owners, onNewOwner } = props
+   const { owners, onEditOwner, onNewOwner } = props
    return (
       <Routes>
          <Route index element={<OwnersList owners={owners} />} />
-         <Route path="new" element={<NewOwnerForm onNewOwner={onNewOwner} />} />
-         <Route path=":id" element={<OwnerProfile owners={owners} />} />
+         <Route path="new" element={<OwnerForm onNewOwner={onNewOwner} />} />
+         <Route path=":id/*" element={<OwnerPage onEditOwner={onEditOwner} />} />
       </Routes>
    )
 }

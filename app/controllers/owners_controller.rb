@@ -20,6 +20,12 @@ class OwnersController < ApplicationController
       render json: owner, status: :ok
    end
 
+   def update
+      owner = find_owner
+      owner.update!(owner_params)
+      render json: owner, status: :accepted
+   end
+
    private
 
    def owner_params

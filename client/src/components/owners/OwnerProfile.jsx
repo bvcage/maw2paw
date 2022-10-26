@@ -1,12 +1,11 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function OwnerProfile (props) {
-   const { owners } = props
-   const params = useParams()
-   const owner = owners.find(owner => owner.id === parseInt(params.id))
-   console.log(owner)
+   const { owner } = props
    const { full_name, phone, email, address } = owner
+
+   const navigate = useNavigate()
 
    return (
       <div>
@@ -14,6 +13,7 @@ function OwnerProfile (props) {
          <h3>{phone}</h3>
          <h3>{email}</h3>
          <h3>{address}</h3>
+         <button onClick={() => {navigate('edit')}}>edit</button>
       </div>
    )
 }

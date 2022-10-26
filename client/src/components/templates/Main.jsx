@@ -20,6 +20,15 @@ function Main (props) {
       fetch('/pets').then(r=>r.json()).then(setPets)
    }, [])
 
+   function onEditOwner (editOwner) {
+      const update = owners.map(owner => {
+         if (owner.id === editOwner.id) return editOwner
+         return owner
+      })
+      setOwners(update)
+      navigate(`owners/${editOwner.id}`)
+   }
+
    function onNewOwner (newOwner) {
       setOwners([...owners, newOwner].sort((a,b) => {
          const aLast = a.last_name.toUpperCase()
@@ -50,7 +59,7 @@ function Main (props) {
       <Header onLogout={onLogout} />
       <Routes>
          <Route path="dashboard" element={<Dashboard onLogout={onLogout} user={user} />} />
-         <Route path="owners/*" element={<OwnersPage onNewOwner={onNewOwner} owners={owners} />} />
+         <Route path="owners/*" element={<OwnersPage owners={owners} onEditOwner={onEditOwner} onNewOwner={onNewOwner}  />} />
          <Route path="pets/*"
             element={<PetsPage
                onNewPet={onNewPet}

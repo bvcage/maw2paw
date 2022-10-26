@@ -10,7 +10,7 @@ Rails.application.routes.draw do
    resources :vets, only: [:index, :show]
    resources :visits, only: [:index, :show, :create, :update]
    
-   resources :owners, only: [:index, :show, :create] do
+   resources :owners, only: [:index, :show, :create, :update] do
       resources :pets, only: [:index, :show]
    end
    

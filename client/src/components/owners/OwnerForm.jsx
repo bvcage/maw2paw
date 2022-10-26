@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 
-function NewOwnerForm (props) {
+function OwnerForm (props) {
 
-   const { onNewOwner } = props
+   const { onEditOwner, onNewOwner } = props
 
-   const [address, setAddress] = useState("")
-   const [email, setEmail] = useState("")
-   const [first, setFirst] = useState("")
-   const [last, setLast] = useState("")
-   const [phone, setPhone] = useState("")
+   const [address, setAddress] = useState(!!props.owner ? props.owner.address : "")
+   const [email, setEmail] = useState(!!props.owner ? props.owner.email : "")
+   const [first, setFirst] = useState(!!props.owner ? props.owner.first_name : "")
+   const [last, setLast] = useState(!!props.owner ? props.owner.last_name : "")
+   const [phone, setPhone] = useState(!!props.owner ? props.owner.phone : "")
 
    const context = {
       "setAddress": setAddress,
@@ -32,8 +32,10 @@ function NewOwnerForm (props) {
 
    function handleSubmit (e) {
       e.preventDefault()
-      fetch('/owners', {
-         method: 'POST',
+      const url = !!props.owner ? `/owners/${props.owner.id}` : '/owners'
+      const method = !!props.owner ? 'PATCH' : 'POST'
+      fetch(url, {
+         method: method,
          headers: {
             'Content-Type': 'application/json'
          },
@@ -45,7 +47,10 @@ function NewOwnerForm (props) {
             address: address
          })
       }).then(r => {
-         if (r.ok) r.json().then(onNewOwner)
+         if (r.ok) r.json().then(owner => {
+            if (!!props.owner) onEditOwner(owner)
+            else onNewOwner(owner)
+         })
          else console.log('error')
       })
    }
@@ -108,10 +113,10 @@ function NewOwnerForm (props) {
             <label>address</label>
          </div>
 
-         <button type="submit">create</button>
+         <button type="submit">{ !!props.owner ? 'update' : 'create' }</button>
 
       </form>
    )
 }
 
-export default NewOwnerForm
+export default OwnerForm

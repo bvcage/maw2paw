@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function VisitForm (props) {
+function NewVisitForm (props) {
 
    const { onNewVisit } = props
 
@@ -197,4 +197,4 @@ function VisitForm (props) {
    )
 }
 
-export default VisitForm
+export default NewVisitForm

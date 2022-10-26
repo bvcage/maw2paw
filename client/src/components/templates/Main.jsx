@@ -4,7 +4,7 @@ import Header from '../Header'
 import Dashboard from '../Dashboard'
 import OwnersPage from '../owners/OwnersPage'
 import PetsPage from '../pets/PetsPage'
-import VisitsContainer from '../visits/VisitsContainer'
+import VisitsPage from '../visits/VisitsPage'
 
 function Main (props) {
    const { onLogout, user } = props
@@ -39,7 +39,7 @@ function Main (props) {
                onNewPet={onNewPet}
                owners={owners}
                pets={pets} />} />
-         <Route path="visits/*" element={<VisitsContainer owners={owners} pets={pets} />} />
+         <Route path="visits/*" element={<VisitsPage owners={owners} pets={pets} />} />
       </Routes>
    </>)
 }

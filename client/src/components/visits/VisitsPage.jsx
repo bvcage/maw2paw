@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import VisitForm from './VisitForm'
+import NewVisitForm from './NewVisitForm'
 import VisitsList from './VisitsList'
 
-function VisitsContainer (props) {
+function VisitsPage (props) {
 
    const [visits, setVisits] = useState([])
 
@@ -18,9 +18,9 @@ function VisitsContainer (props) {
    return (
       <Routes>
          <Route index element={<VisitsList visits={visits} />} />
-         <Route path="new" element={<VisitForm onNewVisit={onNewVisit} />} />
+         <Route path="new" element={<NewVisitForm onNewVisit={onNewVisit} />} />
       </Routes>
    )
 }
 
-export default VisitsContainer
+export default VisitsPage

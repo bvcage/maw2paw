@@ -20,7 +20,7 @@ function Main (props) {
 
    function onNewPet (newPet) {
       setPets([...pets, newPet])
-      navigate('pets')
+      navigate(`pets/${newPet.id}`)
    }
 
    return (<>

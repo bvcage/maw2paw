@@ -29,6 +29,15 @@ function Main (props) {
       navigate(`owners/${editOwner.id}`)
    }
 
+   function onEditPet (editPet) {
+      const update = pets.map(pet => {
+         if (pet.id === editPet.id) return editPet
+         return pet
+      })
+      setPets(update)
+      navigate(`pets/${editPet.id}`)
+   }
+
    function onNewOwner (newOwner) {
       setOwners([...owners, newOwner].sort((a,b) => {
          const aLast = a.last_name.toUpperCase()
@@ -61,10 +70,9 @@ function Main (props) {
          <Route path="dashboard" element={<Dashboard onLogout={onLogout} user={user} />} />
          <Route path="owners/*" element={<OwnersPage owners={owners} onEditOwner={onEditOwner} onNewOwner={onNewOwner}  />} />
          <Route path="pets/*"
-            element={<PetsPage
-               onNewPet={onNewPet}
-               owners={owners}
-               pets={pets} />} />
+            element={<PetsPage pets={pets}
+               onEditPet={onEditPet}
+               onNewPet={onNewPet} />} />
          <Route path="visits/*" element={<VisitsPage owners={owners} pets={pets} />} />
       </Routes>
       <Footer />

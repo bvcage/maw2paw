@@ -22,7 +22,13 @@ class PetsController < ApplicationController
 
    def species_and_breeds
       breeds = Pet.species_and_breeds
-      render json: breeds, adapter: nil
+      render json: breeds, adapter: nil, status: :ok
+   end
+
+   def update
+      pet = find_pet
+      pet.update!(pet_params)
+      render json: pet, status: :accepted
    end
 
    private

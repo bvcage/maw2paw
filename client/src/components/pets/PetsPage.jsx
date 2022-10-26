@@ -6,13 +6,13 @@ import PetsList from './PetsList'
 
 function PetsPage (props) {
 
-   const { onNewPet, owners, pets } = props
+   const { pets, onEditPet, onNewPet } = props
 
    return (
       <Routes>
          <Route index element={<PetsList pets={pets} />} />
          <Route path="new" element={<PetForm onNewPet={onNewPet} />} />
-         <Route path=":id/*" element={<PetPage />} />
+         <Route path=":id/*" element={<PetPage onEditPet={onEditPet} />} />
       </Routes>
    )
 }

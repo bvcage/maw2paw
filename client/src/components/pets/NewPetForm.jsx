@@ -137,7 +137,7 @@ function NewPetForm (props) {
             <input name="breed"
                type="text"
                className="form-control"
-               disabled={!(species in breeds)}
+               disabled={!species || !(species in breeds)}
                placeholder="breed"
                value={breed}
                onBlur={handleBlur}
@@ -154,7 +154,7 @@ function NewPetForm (props) {
                name="color"
                type="text"
                className="form-control"
-               disabled={!species}
+               disabled={!species || !(species in breeds)}
                placeholder="color"
                value={color}
                onChange={handleChange} />

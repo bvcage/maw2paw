@@ -5,6 +5,7 @@ import Dashboard from '../Dashboard'
 import OwnersPage from '../owners/OwnersPage'
 import PetsPage from '../pets/PetsPage'
 import VisitsPage from '../visits/VisitsPage'
+import Footer from '../Footer'
 
 function Main (props) {
    const { onLogout, user } = props
@@ -41,6 +42,7 @@ function Main (props) {
                pets={pets} />} />
          <Route path="visits/*" element={<VisitsPage owners={owners} pets={pets} />} />
       </Routes>
+      <Footer />
    </>)
 }
 

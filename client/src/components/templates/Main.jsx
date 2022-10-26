@@ -21,12 +21,28 @@ function Main (props) {
    }, [])
 
    function onNewOwner (newOwner) {
-      setOwners([...owners, newOwner])
+      setOwners([...owners, newOwner].sort((a,b) => {
+         const aLast = a.last_name.toUpperCase()
+         const bLast = b.last_name.toUpperCase()
+         const aFirst = a.first_name.toUpperCase()
+         const bFirst = b.first_name.toUpperCase()
+         if (aLast < bLast) return -1
+         if (aLast > bLast) return 1
+         if (aFirst < bFirst) return -1
+         if (aFirst > bFirst) return 1
+         return 0
+      }))
       navigate(`owners/${newOwner.id}`)
    }
 
    function onNewPet (newPet) {
-      setPets([...pets, newPet])
+      setPets([...pets, newPet].sort((a,b) => {
+         const aName = a.name.toUpperCase()
+         const bName = b.name.toUpperCase()
+         if (aName < bName) return -1
+         if (aName > bName) return 1
+         return 0
+      }))
       navigate(`pets/${newPet.id}`)
    }
 

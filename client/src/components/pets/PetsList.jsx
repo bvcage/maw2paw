@@ -1,8 +1,17 @@
 import React from 'react'
+import PetCard from './PetCard'
 
 function PetsList (props) {
+   const { pets } = props
+
+   const cards = pets.map(pet => {
+      return (
+         <PetCard key={pet.id} pet={pet} />
+      )
+   })
+
    return (
-      <div>PetsList</div>
+      <div>{cards}</div>
    )
 }
 

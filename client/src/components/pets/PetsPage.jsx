@@ -5,16 +5,21 @@ import PetsList from './PetsList'
 
 function PetsPage (props) {
 
-   const [pets, setPets] = useState([])
+   const { onNewPet, owners, pets } = props
+
+   const [breeds, setBreeds] = useState({})
 
    useEffect(() => {
-      fetch('/pets').then(r=>r.json()).then(data=>setPets(data))
+      fetch('/pets/breeds').then(r=>r.json()).then(setBreeds)
    }, [])
 
    return (
       <Routes>
          <Route index element={<PetsList pets={pets} />} />
-         <Route path="new" element={<NewPetForm />} />
+         <Route path="new"
+            element={<NewPetForm
+               onNewPet={onNewPet}
+               breeds={breeds} />} />
       </Routes>
    )
 }

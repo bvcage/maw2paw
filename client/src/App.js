@@ -1,14 +1,11 @@
+import './App.css'
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import About from './components/About'
-import Dashboard from './components/Dashboard'
 import Home from './components/Home'
 import Login from './components/Login'
+import Main from './components/templates/Main'
 import SignUp from './components/SignUp'
-import './App.css'
-import VisitsContainer from './components/visits/VisitsContainer'
-import TemplateMain from './components/templates/TemplateMain'
-import PetsPage from './components/pets/PetsPage'
 
 function App () {
    const [user, setUser] = useState(null)
@@ -46,11 +43,7 @@ function App () {
             <Route path="about" element={<About />} />
             <Route path="login" element={<Login onLogin={onLogin} />} />
             <Route path="signup" element={<SignUp onSignup={onSignup} />} />
-            <Route path="main" element={<TemplateMain />}>
-               <Route path="dashboard" element={<Dashboard onLogout={onLogout} user={user} />} />
-               <Route path="pets/*" element={<PetsPage />} />
-               <Route path="visits/*" element={<VisitsContainer />} />
-            </Route>
+            <Route path="main/*" element={<Main onLogout={onLogout} user={user} />} />
          </Routes>
       </div>
    )

@@ -7,6 +7,11 @@ class VisitsController < ApplicationController
 
    def index
       visits = Visit.all
+      # iterate thru optional parameters
+      if (params.keys.length > 2) then visits = filter_by_params visits end
+      # sort chronologically
+      visits = visits.sort_by { |v| v.schedule }
+      # render & return
       render json: visits, status: :ok
    end
 
@@ -25,6 +30,17 @@ class VisitsController < ApplicationController
 
    def visit_params
       params.permit(:pet_id, :vet_id, :schedule, :checkin, :diagnosis, :note)
+   end
+
+   def filter_by_params visits
+      params.each do |key, value|
+         case key
+         when "pet_id"
+            pet = Pet.find(params[:pet_id])
+            visits = pet.visits
+         end
+      end
+      visits
    end
 
    def find_visit

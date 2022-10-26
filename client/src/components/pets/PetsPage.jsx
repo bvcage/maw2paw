@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import NewPetForm from './NewPetForm'
-import PetProfile from './PetProfile'
+import PetSummary from './PetSummary'
 import PetsList from './PetsList'
 
 function PetsPage (props) {
@@ -21,7 +21,7 @@ function PetsPage (props) {
             element={<NewPetForm
                onNewPet={onNewPet}
                breeds={breeds} />} />
-         <Route path=":id" element={<PetProfile pets={pets} />} />
+         <Route path=":id/*" element={<PetSummary />} />
       </Routes>
    )
 }

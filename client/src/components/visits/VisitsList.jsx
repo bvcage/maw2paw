@@ -1,54 +1,17 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import VisitCard from './VisitCard'
 
 function VisitsList (props) {
    const { visits } = props
 
-   const navigate = useNavigate()
-
-   function isToday (date) {
-      const today = new Date()
-      return date.getDate() === today.getDate() &&
-         date.getMonth() === today.getMonth() &&
-         date.getFullYear() === today.getFullYear()
-   }
-
-   const rows = visits
-   .sort((a,b) => {
-      if (a.schedule < b.schedule) { return -1 }
-      if (a.schedule > b.schedule) { return 1 }
-      return 0
-   })
-   .filter(visit => {
-      const appt = new Date(visit.schedule)
-      return isToday(appt)
-   })
-   .map(visit => {
-      const appt = new Date(visit.schedule)
+   const cards = visits.map(visit => {
       return (
-         <tr key={visit.id} onClick={() => navigate(`${visit.id}`)}>
-            <th scope="row">{appt.toLocaleTimeString("en-US", {hour:'numeric', minute:'numeric'})}</th>
-            <td>{visit.pet.name}</td>
-            <td>{visit.pet.name}</td>
-            <td>{visit.vet.last_name}</td>
-         </tr>
+         <VisitCard key={visit.id} visit={visit} />
       )
    })
 
    return (
-      <table className="table">
-         <thead>
-            <tr>
-               <th scope="col">time</th>
-               <th scope="col">owner</th>
-               <th scope="col">pet</th>
-               <th scope="col">vet</th>
-            </tr>
-         </thead>
-         <tbody>
-            {rows}
-         </tbody>
-      </table>
+      <div>{cards}</div>
    )
 }
 

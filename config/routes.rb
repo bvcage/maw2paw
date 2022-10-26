@@ -4,16 +4,20 @@ Rails.application.routes.draw do
    get '/pets/breeds', to: 'pets#species_and_breeds'
 
    # default routes
-   resources :users, only: [:show, :create]
    resources :clinics, only: [:index, :show]
-   resources :vets, only: [:index, :show]
-   resources :pets, only: [:index, :show, :create]
    resources :pet_owners, only: [:index]
+   resources :users, only: [:show, :create]
+   resources :vets, only: [:index, :show]
+   resources :visits, only: [:index, :show, :create, :update]
+   
    resources :owners, only: [:index, :show, :create] do
       resources :pets, only: [:index, :show]
    end
-   resources :visits, only: [:index, :show, :create, :update]
-
+   
+   resources :pets, only: [:index, :show, :create] do
+      resources :visits, only: [:index]
+   end
+   
    # login / logout
    get '/auth', to: 'users#show'
    post '/login', to: 'sessions#create'

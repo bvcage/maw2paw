@@ -1,11 +1,7 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
 
 function PetProfile (props) {
-   const { pets } = props
-   const params = useParams()
-   const pet = pets.find(pet => pet.id === parseInt(params.id))
-   if (!pet) {return (<div>no pet with id {params.id}</div>)}
+   const { pet } = props
    const { name, species, breed, color, birthday } = pet
 
    return (

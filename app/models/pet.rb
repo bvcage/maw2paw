@@ -5,6 +5,7 @@ class Pet < ApplicationRecord
 
    has_many :pet_owners
    has_many :owners, through: :pet_owners
+   has_many :visits
 
    def self.species_and_breeds
       breeds = {}

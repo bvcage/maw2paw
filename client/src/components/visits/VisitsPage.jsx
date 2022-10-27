@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import NewVisitForm from './NewVisitForm'
+import VisitPage from './VisitPage'
 import VisitsTable from './VisitsTable'
-import VisitSummary from './VisitSummary'
 
 function VisitsPage (props) {
 
@@ -19,22 +19,29 @@ function VisitsPage (props) {
          date.getFullYear() === today.getFullYear()
    }
 
+   function onEditVisit (editVisit) {
+      const update = visits.map(visit => {
+         if (visit.id === editVisit.id) return editVisit
+         return visit
+      })
+      setVisits(update)
+   }
+
    function onNewVisit (newVisit) {
       setVisits([...visits, newVisit])
    }
 
-
    const todaysVisits = !!visits ? visits.filter(visit => {
-      const appt = new Date(visit.schedule)
+      const appt = new Date(visit.scheduled_for)
       return isToday(appt)
    }) : null
 
    return (
       <Routes>
-         <Route index element={<VisitsTable visits={todaysVisits} showAll={false} />} />
+         <Route index element={<VisitsTable visits={todaysVisits} showAll={false} onEditVisit={onEditVisit} />} />
          <Route path="all" element={<VisitsTable visits={visits} showAll={true} />} />
          <Route path="new" element={<NewVisitForm onNewVisit={onNewVisit} />} />
-         <Route path=":id" element={<VisitSummary />} />
+         <Route path=":id/*" element={<VisitPage onEndVisit={onEditVisit} />} />
       </Routes>
    )
 }

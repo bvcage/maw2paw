@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 function VisitSummary (props) {
+   const { onEndVisit } = props
    const params = useParams()
 
    const [edit, setEdit] = useState(false)
@@ -18,7 +19,10 @@ function VisitSummary (props) {
    }, [params.id])
 
    function endVisit (e) {
+      const end = {...visit, location: 1, status: 5}
+      setVisit(end)
       handleSubmit(e)
+      onEndVisit(end)
       navigate('/main/visits')
    }
 
@@ -70,18 +74,6 @@ function VisitSummary (props) {
                   onChange={handleChange}
                />
                <label>diagnosis</label>
-            </div>
-
-            <div className="form-floating">
-               <textarea
-                  name="note"
-                  className="form-control"
-                  disabled={!edit}
-                  placeholder="notes"
-                  rows={6}
-                  value={visit.note}
-                  onChange={handleChange} />
-               <label>notes</label>
             </div>
 
             {edit ? saveBtn : null }

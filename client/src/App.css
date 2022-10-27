@@ -2,6 +2,14 @@ html, body {
    background-color: #5d6168;
 }
 
+.button {
+   border-radius: 0.2rem;
+}
+
+.button:hover {
+   background-color: aqua;
+}
+
 .card {
    max-width: 250px;
 }
@@ -11,6 +19,7 @@ html, body {
 }
 
 .dropdown-content {
+   background-color: rgb(161, 161, 161);
    display: none;
    max-height: 500px;
    overflow: auto;

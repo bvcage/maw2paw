@@ -57,9 +57,9 @@ function OwnerForm (props) {
             address: address
          })
       }).then(r => {
-         if (r.ok) {r.json().then(owner => {
-            if (!!owner) onEditOwner(owner)
-            else onNewOwner(owner)
+         if (r.ok) {r.json().then(entry => {
+            if (!!owner) onEditOwner(entry)
+            else onNewOwner(entry)
          })} else {
             r.json().then(err => {
                setErrors([err])
@@ -71,12 +71,12 @@ function OwnerForm (props) {
       })
    }
 
-   const errList = errors.map(item => {
+   const errList = errors.map((item,i) => {
       const err = item.error.split(":")
       let sublvl = err[1].split(",")
-      sublvl = sublvl.map(item => <li>{item.trim()}</li>)
+      sublvl = sublvl.map((item,j) => <li key={`subErr${j}`}>{item.trim()}</li>)
       return (
-         <li>{err[0]}:
+         <li key={`error${i}`}>{err[0]}:
             <ul>{sublvl}</ul>
          </li>
       )

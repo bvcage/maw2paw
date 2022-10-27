@@ -70,11 +70,6 @@ div#owner-summary, #pet-summary {
    overflow: hidden;
 }
 
-/* div#owner-profile-container, #pet-profile-container {
-   height: var(--profile-container-height);
-   min-height: 'auto';
-} */
-
 div#owner-summary #pets-list-container {
    align-items: top;
    max-height: calc(100% - 13rem);

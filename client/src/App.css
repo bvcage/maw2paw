@@ -82,8 +82,9 @@ div#page-container {
    padding: 1rem 0rem;
 }
 
-div#pets-list,
 div#owners-list,
+div#pet-owner-list,
+div#pets-list,
 div#visits-list {
    /* static values */
    --grid-column-count: 4;
@@ -103,8 +104,19 @@ div#visits-list {
    overflow: scroll;
 }
 
+div#owners-list-container,
 div#pets-list-container {
    height: calc(100% - 2rem - 1rem);
+}
+
+div#pet-owner-list-container {
+   position: relative;
+   height: 100%;
+}
+
+div#pet-owner-list {
+   max-height: 50%;
+   overflow: scroll;
 }
 
 /* pet summary page */
@@ -144,6 +156,10 @@ div#pet-summary button {
    position: absolute;
    top: 0px;
    right: 0px;
+}
+
+#pets-table {
+   text-align: left;
 }
 
 /* forms */

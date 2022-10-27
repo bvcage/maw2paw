@@ -19,6 +19,7 @@ function OwnerProfile (props) {
                address: {address}
             </p>
             <button onClick={() => {navigate('edit')}}>edit</button>
+            <button onClick={() => {navigate('pets')}}>add pet</button>
          </div>
       </div>
    )

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Flatpickr from 'react-flatpickr'
 
 function PetForm (props) {
-   const { onEditPet, onNewPet, pet } = props
+   const { onEditPet, onNewPet, onNewPetForOwner, owner, pet } = props
 
    let today = new Date()
    today = `${today.getFullYear()}-${("0" + (today.getMonth()+1)).slice(-2)}-${("0" + (today.getDate())).slice(-2)}`
@@ -78,6 +78,7 @@ function PetForm (props) {
       }).then(r=> {
          if (r.ok) {r.json().then(pet => {
             if (!!props.pet) onEditPet(pet)
+            else if (!!props.owner) onNewPetForOwner(pet)
             else onNewPet(pet)
          })} else {
             r.json().then(err => {
@@ -112,7 +113,7 @@ function PetForm (props) {
          })
       : null
 
-   const speciesList = !!breeds && !!species ? 
+   const speciesList = !!breeds ? 
       Object.keys(breeds).filter(specie => specie.toUpperCase().includes(species.toUpperCase()))
          .map(specie => {
             return (
@@ -143,7 +144,7 @@ function PetForm (props) {
    return (
       <form onSubmit={handleSubmit}>
 
-         <h2>{ !!props.pet ? 'edit' : 'new' } pet form</h2>
+         <h2>{ !!props.pet ? 'edit' : 'new' } pet{ !!props.owner ? null : " form"}</h2>
 
          <div className="form-floating">
             <input
@@ -161,6 +162,7 @@ function PetForm (props) {
             <input name="species"
                type="text"
                className="form-control"
+               disabled={!name}
                placeholder="species"
                value={species}
                onBlur={handleBlur}

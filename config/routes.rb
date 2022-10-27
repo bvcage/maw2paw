@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
    # default routes
    resources :clinics, only: [:index, :show]
-   resources :pet_owners, only: [:index]
+   resources :pet_owners, only: [:index, :create]
    resources :users, only: [:show, :create]
    resources :vets, only: [:index, :show]
    resources :visits, only: [:index, :show, :create, :update]

@@ -11,7 +11,7 @@ function VisitCard (props) {
    const diagnosis = visit.diagnosis ? (<>seen for: {visit.diagnosis}<br /></>) : null
    
    return (
-      <div className="card" onClick={() => navigate(`/main/visits/${visit.id})`)}>
+      <div className="card" onClick={() => navigate(`/main/visits/${visit.id}`)}>
          <div className="card-body">
             <h5 className="card-title">{`${appt.toLocaleString("en-us", { year:'numeric', month:'short', day:'numeric' })}`}</h5>
             <p className="mb-0">

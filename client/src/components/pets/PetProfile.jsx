@@ -9,11 +9,13 @@ function PetProfile (props) {
          <h2>{pet.name}</h2>
          <div id="pet-profile">
             <p>
-               {!!species ? species.toLowerCase() : null} | {breed}
+               species: {!!species ? species.toLowerCase() : null}
                <br />
-               birthday: {birthday}
+               breed: {!!breed ? breed : "unspecified"}
                <br />
-               color: {color}
+               birthday: {!!birthday ? birthday : "unknown"}
+               <br />
+               color: {!!color ? color : "unspecified"}
             </p>
          </div>
       </div>

@@ -39,7 +39,7 @@ function Main (props) {
    }
 
    function onNewOwner (newOwner) {
-      setOwners([...owners, newOwner].sort((a,b) => {
+      const update = [...owners, newOwner].sort((a,b) => {
          const aLast = a.last_name.toUpperCase()
          const bLast = b.last_name.toUpperCase()
          const aFirst = a.first_name.toUpperCase()
@@ -49,11 +49,12 @@ function Main (props) {
          if (aFirst < bFirst) return -1
          if (aFirst > bFirst) return 1
          return 0
-      }))
+      })
+      setOwners(update)
       navigate(`owners/${newOwner.id}`)
    }
 
-   function onNewPet (newPet) {
+   function onNewPet (newPet, redirect = true) {
       setPets([...pets, newPet].sort((a,b) => {
          const aName = a.name.toUpperCase()
          const bName = b.name.toUpperCase()
@@ -61,7 +62,7 @@ function Main (props) {
          if (aName > bName) return 1
          return 0
       }))
-      navigate(`pets/${newPet.id}`)
+      if (redirect) navigate(`pets/${newPet.id}`)
    }
 
    return (<div id="main-content" className='container'>
@@ -69,7 +70,7 @@ function Main (props) {
       <div id="page-container">
       <Routes>
          <Route path="dashboard" element={<Dashboard onLogout={onLogout} user={user} />} />
-         <Route path="owners/*" element={<OwnersPage owners={owners} onEditOwner={onEditOwner} onNewOwner={onNewOwner}  />} />
+         <Route path="owners/*" element={<OwnersPage owners={owners} onEditOwner={onEditOwner} onNewOwner={onNewOwner} onNewPet={onNewPet}  />} />
          <Route path="pets/*"
             element={<PetsPage pets={pets}
                onEditPet={onEditPet}

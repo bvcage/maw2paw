@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import OwnersList from '../owners/OwnersList'
 import PetProfile from './PetProfile'
 import VisitsList from '../visits/VisitsList'
 
 function PetSummary (props) {
    const { pet } = props
+   const navigate = useNavigate()
    const [visits, setVisits] = useState([])
    useEffect(() => {
       if (pet.id) {
@@ -17,10 +19,10 @@ function PetSummary (props) {
 
    return (
       <div id="pet-summary">
-         <h2>{pet.name}</h2>
          <PetProfile pet={pet} />
          <OwnersList owners={pet.owners} />
          <VisitsList visits={visits} />
+         <button onClick={() => navigate(`/main/pets/${pet.id}/edit`)}>edit</button>
       </div>
    )
 }

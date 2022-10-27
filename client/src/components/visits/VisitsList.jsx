@@ -11,9 +11,9 @@ function VisitsList (props) {
    }) : null
 
    return (
-      <div>
+      <div id="visits-list-container">
          <h3>visit history</h3>
-         {cards}
+         <div id="visits-list">{cards}</div>
       </div>
    )
 }

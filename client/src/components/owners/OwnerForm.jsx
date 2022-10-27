@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function OwnerForm (props) {
+   const { owner, onEditOwner, onNewOwner } = props
 
-   const { onEditOwner, onNewOwner } = props
+   const [address, setAddress] = useState("")
+   const [email, setEmail] = useState("")
+   const [first, setFirst] = useState("")
+   const [last, setLast] = useState("")
+   const [phone, setPhone] = useState("")
 
-   const [address, setAddress] = useState(!!props.owner ? props.owner.address : "")
-   const [email, setEmail] = useState(!!props.owner ? props.owner.email : "")
-   const [first, setFirst] = useState(!!props.owner ? props.owner.first_name : "")
-   const [last, setLast] = useState(!!props.owner ? props.owner.last_name : "")
-   const [phone, setPhone] = useState(!!props.owner ? props.owner.phone : "")
+   useEffect(() => {
+      if (!!owner) {
+         setAddress(owner.address)
+         setEmail(owner.email)
+         setFirst(owner.first_name)
+         setLast(owner.last_name)
+         setPhone(owner.phone)
+      }
+   }, [owner])
 
    const context = {
       "setAddress": setAddress,
@@ -32,8 +41,8 @@ function OwnerForm (props) {
 
    function handleSubmit (e) {
       e.preventDefault()
-      const url = !!props.owner ? `/owners/${props.owner.id}` : '/owners'
-      const method = !!props.owner ? 'PATCH' : 'POST'
+      const url = !!owner ? `/owners/${owner.id}` : '/owners'
+      const method = !!owner ? 'PATCH' : 'POST'
       fetch(url, {
          method: method,
          headers: {
@@ -48,7 +57,7 @@ function OwnerForm (props) {
          })
       }).then(r => {
          if (r.ok) r.json().then(owner => {
-            if (!!props.owner) onEditOwner(owner)
+            if (!!owner) onEditOwner(owner)
             else onNewOwner(owner)
          })
          else console.log('error')
@@ -57,9 +66,9 @@ function OwnerForm (props) {
 
    return (
       <form onSubmit={handleSubmit} autoComplete="off">
-         <h2>{ !!props.owner ? 'edit' : 'new' } owner form</h2>
+         <h2>{ !!owner ? 'edit' : 'new' } owner form</h2>
          {/* add pets ? */}
-         <input type="text" hidden autoComplete='off' />
+         <input type="text" hidden autoComplete="off" />
 
          <div className="form-floating">
             <input

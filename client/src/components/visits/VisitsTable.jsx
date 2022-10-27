@@ -27,9 +27,9 @@ function VisitsTable (props) {
 
       const ownersList = visit.owners.map(owner => owner.full_name).join(', ')
 
-      const reasonDisplay = visit.reason.length > 20 ? visit.reason.slice(0,20) + '...' : visit.reason
+      const reasonDisplay = !!visit.reason && visit.reason.length > 20 ? visit.reason.slice(0,20) + '...' : visit.reason
 
-      const statusDisplay = <div className="button" onClick={(e) => handleClick(e, visit, "status")}>{VISIT_STATUS[visit.status]}</div>
+      const statusDisplay = <div className="button" onClick={(e) => handleClick(e, visit, "status")}>{!!visit.status ? VISIT_STATUS[visit.status] : VISIT_STATUS[1]}</div>
       const statusOptions = VISIT_STATUS.map((status, i) => {
          return (
             <div key={`status${i}`} onClick={(e) => handleClick(e, visit, "status", i)}>{status}</div>
@@ -52,7 +52,7 @@ function VisitsTable (props) {
             </td>
             <td>
                <div className='dropdown'>
-                  {locationDisplay}
+                  {!!visit.location ? locationDisplay : null}
                   <div id={`locationDropdown${visit.id}`} className="dropdown-content">
                      {locationOptions}
                   </div>

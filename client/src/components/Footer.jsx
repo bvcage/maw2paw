@@ -9,7 +9,7 @@ function Footer (props) {
    const backBtn = path.length > 3 ? <button onClick={() => navigate(-1)}>back</button> : null
 
    return (
-      <div>
+      <div id="footer">
          {backBtn}
       </div>
    )

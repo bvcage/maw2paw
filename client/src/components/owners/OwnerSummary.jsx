@@ -9,7 +9,6 @@ function OwnerSummary (props) {
    
    return (
       <div id="owner-summary">
-         <h2>{owner.full_name}</h2>
          <OwnerProfile owner={owner} />
          <PetsList pets={owner.pets} />
       </div>

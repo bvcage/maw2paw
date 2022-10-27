@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react'
 
 function PetForm (props) {
-
-   const { onEditPet, onNewPet } = props
+   const { onEditPet, onNewPet, pet } = props
 
    let today = new Date()
    today = `${today.getFullYear()}-${("0" + (today.getMonth()+1)).slice(-2)}-${("0" + (today.getDate())).slice(-2)}`
 
-   const [breed, setBreed] = useState(!!props.pet ? props.pet.breed : "")
+   const [breed, setBreed] = useState("")
    const [breeds, setBreeds] = useState({})
-   const [color, setColor] = useState(!!props.pet ? props.pet.color : "")
-   const [birthday, setBirthday] = useState(!!props.pet ? props.pet.birthday : today)
-   const [name, setName] = useState(!!props.pet ? props.pet.name : "")
-   const [species, setSpecies] = useState(!!props.pet ? props.pet.species : "")
+   const [color, setColor] = useState("")
+   const [birthday, setBirthday] = useState(today)
+   const [name, setName] = useState("")
+   const [species, setSpecies] = useState("")
 
    useEffect(() => {
       fetch('/pets/breeds').then(r=>r.json()).then(setBreeds)
-   }, [])
+      if (!!pet) {
+         setBreed(pet.breed)
+         setColor(pet.color)
+         setBirthday(pet.birthday)
+         setName(pet.name)
+         setSpecies(pet.species)
+      }
+   }, [pet])
    
    const context = {
       "setBirthday": setBirthday,
@@ -82,7 +88,7 @@ function PetForm (props) {
       return string.join(" ")
    }
 
-   const breedsList = !!breeds && species in breeds ?
+   const breedsList = !!breeds && breeds[species] ?
       breeds[species].filter(speciesBreed => speciesBreed.toUpperCase().includes(breed.toUpperCase()))
          .map(breed => {
             return (
@@ -98,20 +104,21 @@ function PetForm (props) {
          })
       : null
 
-   const speciesList = Object.keys(breeds)
-   .filter(specie => specie.toUpperCase().includes(species.toUpperCase()))
-   .map(specie => {
-      return (
-         <div name="specie"
-            key={specie}
-            onMouseDown={() => {
-               setSpecies(specie)
-               document.getElementById("speciesDropdown").classList.remove("show")
-            }}
-            >{specie}
-         </div>
-      )
-   })
+   const speciesList = !!breeds && !!species ? 
+      Object.keys(breeds).filter(specie => specie.toUpperCase().includes(species.toUpperCase()))
+         .map(specie => {
+            return (
+               <div name="specie"
+                  key={specie}
+                  onMouseDown={() => {
+                     setSpecies(specie)
+                     document.getElementById("speciesDropdown").classList.remove("show")
+                  }}
+                  >{specie}
+               </div>
+            )
+         })
+      : null
 
    return (
       <form onSubmit={handleSubmit}>

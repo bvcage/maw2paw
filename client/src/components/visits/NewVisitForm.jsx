@@ -79,11 +79,15 @@ function NewVisitForm (props) {
          body: JSON.stringify({
             "pet_id": pet.id,
             "vet_id": vet,
-            "schedule": schedule
+            "scheduled_for": schedule,
+            "status": 1
          })
-      }).then(r=>r.json()).then(data => {
-         onNewVisit(data)
-         navigate(-1)
+      }).then(r=>{
+         if (r.ok) r.json().then(data => {
+            onNewVisit(data)
+            navigate('/main/visits')
+         })
+         else console.log('error')
       })
    }
 
@@ -163,7 +167,7 @@ function NewVisitForm (props) {
                onBlur={handleBlur}
                onChange={handleChange}
                onFocus={handleFocus}
-               disabled={owner ? false : true}
+               disabled={!!owner.full_name ? false : true}
             />
             <div id="petDropdown" className="dropdown-content">
                {petsList}
@@ -175,6 +179,7 @@ function NewVisitForm (props) {
             name="vet"
             className="form-select"
             defaultValue={ !!vet ? vet : "label" }
+            disabled={!!pet.name ? false : true}
             onChange={handleChange} >
                <option disabled value="label">vet</option>
                {vetsList}
@@ -184,11 +189,13 @@ function NewVisitForm (props) {
          <input 
             name="date"
             type="date"
+            disabled={!vet}
             value={date}
             onChange={handleChange} />
          <input
             name="time"
             type="time"
+            disabled={!vet}
             value={time}
             onChange={handleChange} />
 

@@ -1,8 +1,11 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import PetCard from './PetCard'
 
 function PetsList (props) {
    const { pets } = props
+   const location = useLocation()
+   const path = location.pathname.split('/')
 
    const cards = !!pets ? pets.map(pet => {
       return (
@@ -10,10 +13,12 @@ function PetsList (props) {
       )
    }) : null
 
-   return (<>
-      <h3>pets</h3>
-      <div id="pets-list">{cards}</div>
-   </>)
+   return (
+      <div id="pets-list-container">
+         {path.length > 3 ? null : <h2>pets</h2>}
+         <div id="pets-list">{cards}</div>
+      </div>
+   )
 }
 
 export default PetsList

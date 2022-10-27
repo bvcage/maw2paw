@@ -10,7 +10,7 @@ class PetsController < ApplicationController
       # iterate thru optional search parameters
       if (params.keys.length > 2) then pets = filter_by_params pets end
       # sort alphabetically by last then first
-      pets = pets.sort_by { |pet| pet.name }
+      pets = pets.sort_by { |pet| pet.name.upcase }
       # return json if successful
       render json: pets, status: :ok
    end

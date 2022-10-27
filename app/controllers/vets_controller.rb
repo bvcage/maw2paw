@@ -2,6 +2,7 @@ class VetsController < ApplicationController
 
    def index
       vets = Vet.all
+      vets = vets.sort_by { |v| v.last_name.upcase }
       render json: vets, status: :ok
    end
 

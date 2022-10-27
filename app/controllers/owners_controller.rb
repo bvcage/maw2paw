@@ -10,7 +10,7 @@ class OwnersController < ApplicationController
       # iterate thru optional search parameters
       if (params.keys.length > 2) then owners = filter_by_params owners end
       # sort alphabetically by last then first
-      owners = owners.sort_by { |o| [o.last_name, o.first_name] }
+      owners = owners.sort_by { |o| [o.last_name.upcase, o.first_name.upcase] }
       # render & return
       render json: owners, status: :ok
    end

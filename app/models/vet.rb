@@ -9,6 +9,7 @@ class Vet < ApplicationRecord
    end
 
    def initials
-      "#{self.first_name[0,1]} #{self.last_name[0,1]}"
+      self.first_name[0,1] + self.last_name[0,1]
    end
+   
 end

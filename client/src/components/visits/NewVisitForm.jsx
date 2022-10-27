@@ -1,4 +1,3 @@
-import "flatpickr/dist/themes/material_green.css"
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Flatpickr from 'react-flatpickr'
@@ -20,6 +19,7 @@ function NewVisitForm (props) {
    const [schedule, setSchedule] = useState(new Date(today.getTime() + 86400000))
    const [vet, setVet] = useState(0)
    const [vets, setVets] = useState([])
+   const [errors, setErrors] = useState([])
 
    const navigate = useNavigate()
 
@@ -87,11 +87,17 @@ function NewVisitForm (props) {
             "reason": reason
          })
       }).then(r=>{
-         if (r.ok) r.json().then(data => {
+         if (r.ok) {r.json().then(data => {
             onNewVisit(data)
             navigate('/main/visits')
-         })
-         else console.log('error')
+         })} else {
+            r.json().then(err => {
+               setErrors([err])
+               setTimeout(() => {
+                  setErrors([])
+               }, 2000)
+            })
+         }
       })
    }
 
@@ -133,26 +139,40 @@ function NewVisitForm (props) {
    })
    .map(vet => <option key={vet.id} value={vet.id}>{vet.last_name}</option>)
 
+   const errList = errors.map(item => {
+      const err = item.error.split(":")
+      let sublvl = err[1].split(",")
+      sublvl = sublvl.map(item => <li>{item.trim()}</li>)
+      return (
+         <li>{err[0]}:
+            <ul>{sublvl}</ul>
+         </li>
+      )
+   })
+   const errContainer = <div><ul>{errList}</ul></div>
+
    return (
       <form autoComplete="off" onSubmit={handleSubmit}>
-         <h2>new visit</h2>
+         <h2>new visit form</h2>
 
          {/* hidden input to turn off autocomplete / autofill */}
          <input autoComplete="false" type="text" style={{display:"none"}} />
 
          {/* custom dropdown */}
          <div className="dropdown">
-            <label>owner</label>
-            <input
-               name="owner"
-               type="text"
-               className="form-control"
-               placeholder="owner"
-               value={owner.full_name}
-               onBlur={handleBlur}
-               onChange={handleChange}
-               onFocus={handleFocus}
-            />
+            <div className="form-floating">
+               <input
+                  name="owner"
+                  type="text"
+                  className="form-control"
+                  placeholder="owner"
+                  value={owner.full_name}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+               />
+               <label>owner</label>
+            </div>
             <div id="ownerDropdown" className="dropdown-content">
                {ownersList}
             </div>
@@ -161,37 +181,44 @@ function NewVisitForm (props) {
          {/* disabled until owner selected */}
          {/* custom dropdown */}
          <div className="dropdown">
-            <label>pet</label>
-            <input
-               name="pet"
-               type="text"
-               className="form-control"
-               placeholder="pet"
-               value={pet.name}
-               onBlur={handleBlur}
-               onChange={handleChange}
-               onFocus={handleFocus}
-               disabled={!!owner.full_name ? false : true}
-            />
+            <div className="form-floating">
+               <input
+                  name="pet"
+                  type="text"
+                  className="form-control"
+                  placeholder="pet"
+                  value={pet.name}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+                  disabled={!!owner.full_name ? false : true}
+                  />
+               <label>pet</label>
+            </div>
             <div id="petDropdown" className="dropdown-content">
                {petsList}
             </div>
          </div>
 
-         <label>vet</label>
-         <select
-            name="vet"
-            className="form-select"
-            defaultValue={ !!vet ? vet : "label" }
-            disabled={!!pet.name ? false : true}
-            onChange={handleChange} >
-               <option disabled value="label">vet</option>
-               {vetsList}
-         </select>
+         <div className="form-floating">
+            <select
+               name="vet"
+               className="form-select form-control"
+               defaultValue={ !!vet ? vet : "label" }
+               disabled={!!pet.name ? false : true}
+               placeholder="vet"
+               onChange={handleChange} >
+                  <option disabled hidden value="label">select</option>
+                  {vetsList}
+            </select>
+            <label>vet</label>
+         </div>
 
-         <label>schedule</label>
-         <Flatpickr
+         <h4>schedule</h4>
+         <div>
+            <Flatpickr
             name="schedule"
+            className="form-control"
             data-enable-time
             value={schedule}
             onChange={handleChange}
@@ -199,8 +226,11 @@ function NewVisitForm (props) {
                minDate: today,
                minTime: "08:00",
                maxTime: "18:00",
-               minuteIncrement: 15
+               minuteIncrement: 15,
+               position: 'auto center'
             }} />
+         </div>
+         
 
          <h4>additional info</h4>
 
@@ -217,6 +247,9 @@ function NewVisitForm (props) {
          </div>
 
          <button type="submit">submit</button>
+
+         { !!errors ? errContainer : null }
+         
       </form>
    )
 }

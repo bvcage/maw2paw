@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Flatpickr from 'react-flatpickr'
 
 function PetForm (props) {
    const { onEditPet, onNewPet, pet } = props
@@ -12,6 +13,7 @@ function PetForm (props) {
    const [birthday, setBirthday] = useState(today)
    const [name, setName] = useState("")
    const [species, setSpecies] = useState("")
+   const [errors, setErrors] = useState([])
 
    useEffect(() => {
       fetch('/pets/breeds').then(r=>r.json()).then(setBreeds)
@@ -74,11 +76,17 @@ function PetForm (props) {
             birthday: birthday
          })
       }).then(r=> {
-         if (r.ok) r.json().then(pet => {
+         if (r.ok) {r.json().then(pet => {
             if (!!props.pet) onEditPet(pet)
             else onNewPet(pet)
-         })
-         else console.log('error')
+         })} else {
+            r.json().then(err => {
+               setErrors([err])
+               setTimeout(() => {
+                  setErrors([])
+               }, 2000)
+            })
+         }
       })
    }
 
@@ -119,6 +127,18 @@ function PetForm (props) {
             )
          })
       : null
+
+   const errList = errors.map(item => {
+      const err = item.error.split(":")
+      let sublvl = err[1].split(",")
+      sublvl = sublvl.map(item => <li>{item.trim()}</li>)
+      return (
+         <li>{err[0]}:
+            <ul>{sublvl}</ul>
+         </li>
+      )
+   })
+   const errContainer = <div><ul>{errList}</ul></div>
 
    return (
       <form onSubmit={handleSubmit}>
@@ -182,13 +202,15 @@ function PetForm (props) {
          </div>
 
          <label>birthday</label>
-         <input
+         <Flatpickr
             name="birthday"
-            type="date"
             value={birthday}
-            onChange={handleChange} />
+            onChange={handleChange}
+            options={{position: 'auto center'}} />
 
          <button type="submit">{ !!props.pet ? 'update' : 'create' }</button>
+
+         { !!errors ? errContainer : null }
 
       </form>
    )

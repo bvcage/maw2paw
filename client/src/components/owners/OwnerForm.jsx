@@ -8,6 +8,7 @@ function OwnerForm (props) {
    const [first, setFirst] = useState("")
    const [last, setLast] = useState("")
    const [phone, setPhone] = useState("")
+   const [errors, setErrors] = useState([])
 
    useEffect(() => {
       if (!!owner) {
@@ -56,13 +57,31 @@ function OwnerForm (props) {
             address: address
          })
       }).then(r => {
-         if (r.ok) r.json().then(owner => {
+         if (r.ok) {r.json().then(owner => {
             if (!!owner) onEditOwner(owner)
             else onNewOwner(owner)
-         })
-         else console.log('error')
+         })} else {
+            r.json().then(err => {
+               setErrors([err])
+               setTimeout(() => {
+                  setErrors([])
+               }, 2000)
+            })
+         }
       })
    }
+
+   const errList = errors.map(item => {
+      const err = item.error.split(":")
+      let sublvl = err[1].split(",")
+      sublvl = sublvl.map(item => <li>{item.trim()}</li>)
+      return (
+         <li>{err[0]}:
+            <ul>{sublvl}</ul>
+         </li>
+      )
+   })
+   const errContainer = <div><ul>{errList}</ul></div>
 
    return (
       <form onSubmit={handleSubmit} autoComplete="off">
@@ -127,7 +146,10 @@ function OwnerForm (props) {
 
          <button type="submit">{ !!props.owner ? 'update' : 'create' }</button>
 
+         { !!errors ? errContainer : null }
+
       </form>
+
    )
 }
 

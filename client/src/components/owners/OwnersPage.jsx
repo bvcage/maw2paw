@@ -7,11 +7,13 @@ import OwnersList from './OwnersList'
 function OwnersPage (props) {
    const { owners, onEditOwner, onNewOwner } = props
    return (
-      <Routes>
-         <Route index element={<OwnersList owners={owners} />} />
-         <Route path="new" element={<OwnerForm onNewOwner={onNewOwner} />} />
-         <Route path=":id/*" element={<OwnerPage onEditOwner={onEditOwner} />} />
-      </Routes>
+      <div className="page-content">
+         <Routes>
+            <Route index element={<OwnersList owners={owners} />} />
+            <Route path="new" element={<OwnerForm onNewOwner={onNewOwner} />} />
+            <Route path=":id/*" element={<OwnerPage onEditOwner={onEditOwner} />} />
+         </Routes>
+      </div>
    )
 }
 

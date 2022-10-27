@@ -15,11 +15,14 @@ function PetSummary (props) {
       }
    }, [pet])
 
-   return (<>
-      <PetProfile pet={pet} />
-      <OwnersList owners={pet.owners} />
-      <VisitsList visits={visits} />
-   </>)
+   return (
+      <div id="pet-summary">
+         <h2>{pet.name}</h2>
+         <PetProfile pet={pet} />
+         <OwnersList owners={pet.owners} />
+         <VisitsList visits={visits} />
+      </div>
+   )
 }
 
 export default PetSummary

@@ -8,11 +8,14 @@ function PetProfile (props) {
    const navigate = useNavigate()
 
    return (
-      <div>
-         <h2>{name}</h2>
-         <h3>{birthday}</h3>
-         <h3>{species} | {breed}</h3>
-         <h3>{color}</h3>
+      <div id="pet-profile">
+         <p>
+            {species.toLowerCase()} | {breed}
+            <br />
+            birthday: {birthday}
+            <br />
+            color: {color}
+         </p>
          <button onClick={() => navigate(`/main/pets/${id}/edit`)}>edit</button>
       </div>
    )

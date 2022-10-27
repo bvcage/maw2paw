@@ -9,11 +9,13 @@ function PetsPage (props) {
    const { pets, onEditPet, onNewPet } = props
 
    return (
-      <Routes>
-         <Route index element={<PetsList pets={pets} />} />
-         <Route path="new" element={<PetForm onNewPet={onNewPet} />} />
-         <Route path=":id/*" element={<PetPage onEditPet={onEditPet} />} />
-      </Routes>
+      <div className='page-content'>
+         <Routes>
+            <Route index element={<PetsList pets={pets} />} />
+            <Route path="new" element={<PetForm onNewPet={onNewPet} />} />
+            <Route path=":id/*" element={<PetPage onEditPet={onEditPet} />} />
+         </Routes>
+      </div>
    )
 }
 

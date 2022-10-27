@@ -1,10 +1,10 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function NavBar (props) {
    const { onLogout } = props
 
-   const location = useLocation()
+   const navigate = useNavigate()
 
    function handleLogout () {
       fetch('/logout', {
@@ -14,13 +14,13 @@ function NavBar (props) {
 
    return (
       <nav className="navbar">
-         <Link to="dashboard">dashboard</Link>
-         <Link to="owners">owners</Link>
-         <Link to="owners/new">new owner</Link>
-         <Link to="pets">pets</Link>
-         <Link to="pets/new">new pet</Link>
-         <Link to="visits">today's visits</Link>
-         <Link to="visits/new">new visit</Link>
+         <button onClick={() => navigate("dashboard")}>dashboard</button>
+         <button onClick={() => navigate("owners")}>owners</button>
+         <button onClick={() => navigate("owners/new")}>new owner</button>
+         <button onClick={() => navigate("pets")}>pets</button>
+         <button onClick={() => navigate("pets/new")}>new pet</button>
+         <button onClick={() => navigate("visits")}>today's visits</button>
+         <button onClick={() => navigate("visits/new")}>new visit</button>
          <button type="button" onClick={() => handleLogout()}>logout</button>
       </nav>
    )

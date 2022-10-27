@@ -8,7 +8,8 @@ function OwnerSummary (props) {
    if (!owner) return (<div>no owner summary available</div>)
    
    return (
-      <div>owner profile & pets list
+      <div id="owner-summary">
+         <h2>{owner.full_name}</h2>
          <OwnerProfile owner={owner} />
          <PetsList pets={owner.pets} />
       </div>

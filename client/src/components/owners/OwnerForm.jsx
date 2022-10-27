@@ -56,8 +56,11 @@ function OwnerForm (props) {
    }
 
    return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off">
+         <h2>{ !!props.owner ? 'edit' : 'new' } owner form</h2>
          {/* add pets ? */}
+         <input type="text" hidden autoComplete='off' />
+
          <div className="form-floating">
             <input
                name="first"

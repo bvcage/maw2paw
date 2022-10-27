@@ -1,9 +1,11 @@
 import React from 'react'
 
 function Dashboard (props) {
-   return (<>
-      <h1>dashboard</h1>
-   </>)
+   return (
+      <div className="page-content">
+         <h1>dashboard</h1>
+      </div>
+   )
 }
 
 export default Dashboard

@@ -8,11 +8,14 @@ function OwnerProfile (props) {
    const navigate = useNavigate()
 
    return (
-      <div>
-         <h2>{full_name}</h2>
-         <h3>{phone}</h3>
-         <h3>{email}</h3>
-         <h3>{address}</h3>
+      <div id="owner-profile">
+         <p>
+            phone: {phone}
+            <br />
+            email: {email}
+            <br />
+            address: {address}
+         </p>
          <button onClick={() => {navigate('edit')}}>edit</button>
       </div>
    )

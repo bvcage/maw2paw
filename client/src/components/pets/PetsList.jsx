@@ -10,12 +10,10 @@ function PetsList (props) {
       )
    }) : null
 
-   return (
-      <div>
-         <h3>pets list</h3>
-         {cards}
-      </div>
-   )
+   return (<>
+      <h3>pets</h3>
+      <div id="pets-list">{cards}</div>
+   </>)
 }
 
 export default PetsList

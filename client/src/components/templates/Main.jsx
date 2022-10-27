@@ -64,8 +64,9 @@ function Main (props) {
       navigate(`pets/${newPet.id}`)
    }
 
-   return (<>
+   return (<div id="main-content" className='container'>
       <Header onLogout={onLogout} />
+      <div id="page-container">
       <Routes>
          <Route path="dashboard" element={<Dashboard onLogout={onLogout} user={user} />} />
          <Route path="owners/*" element={<OwnersPage owners={owners} onEditOwner={onEditOwner} onNewOwner={onNewOwner}  />} />
@@ -75,8 +76,9 @@ function Main (props) {
                onNewPet={onNewPet} />} />
          <Route path="visits/*" element={<VisitsPage owners={owners} pets={pets} />} />
       </Routes>
+      </div>
       <Footer />
-   </>)
+   </div>)
 }
 
 export default Main

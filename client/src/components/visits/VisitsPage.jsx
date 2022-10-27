@@ -37,12 +37,14 @@ function VisitsPage (props) {
    }) : null
 
    return (
-      <Routes>
-         <Route index element={<VisitsTable visits={todaysVisits} showAll={false} onEditVisit={onEditVisit} />} />
-         <Route path="all" element={<VisitsTable visits={visits} showAll={true} />} />
-         <Route path="new" element={<NewVisitForm onNewVisit={onNewVisit} />} />
-         <Route path=":id/*" element={<VisitPage onEndVisit={onEditVisit} />} />
-      </Routes>
+      <div className='page-content'>
+         <Routes>
+            <Route index element={<VisitsTable visits={todaysVisits} showAll={false} onEditVisit={onEditVisit} />} />
+            <Route path="all" element={<VisitsTable visits={visits} showAll={true} />} />
+            <Route path="new" element={<NewVisitForm onNewVisit={onNewVisit} />} />
+            <Route path=":id/*" element={<VisitPage onEndVisit={onEditVisit} />} />
+         </Routes>
+      </div>
    )
 }
 

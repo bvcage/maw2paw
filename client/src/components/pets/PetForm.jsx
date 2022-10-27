@@ -116,6 +116,8 @@ function PetForm (props) {
    return (
       <form onSubmit={handleSubmit}>
 
+         <h2>{ !!props.pet ? 'edit' : 'new' } pet form</h2>
+
          <div className="form-floating">
             <input
                name="name"

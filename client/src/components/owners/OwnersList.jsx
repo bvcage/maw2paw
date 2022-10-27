@@ -10,12 +10,10 @@ function OwnersList (props) {
       )
    }) : null
 
-   return (
-      <div>
-         <h3>owners list</h3>
-         {cards}
-      </div>
-   )
+   return (<>
+      <h3>owners</h3>
+      <div id="owners-list">{cards}</div>
+   </>)
 }
 
 export default OwnersList

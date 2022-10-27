@@ -1,4 +1,5 @@
 import './App.css'
+import 'flatpickr/dist/themes/material_green.css'
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Main from './components/templates/Main'

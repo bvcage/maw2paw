@@ -10,7 +10,7 @@ class VisitsController < ApplicationController
       # iterate thru optional parameters
       if (params.keys.length > 2) then visits = filter_by_params visits end
       # sort chronologically
-      visits = visits.sort_by { |v| v.schedule }
+      visits = visits.sort_by { |v| v.scheduled_for }
       # render & return
       render json: visits, status: :ok
    end
@@ -29,7 +29,7 @@ class VisitsController < ApplicationController
    private
 
    def visit_params
-      params.permit(:pet_id, :vet_id, :schedule, :checkin, :diagnosis, :note)
+      params.permit(:pet_id, :vet_id, :scheduled_for)
    end
 
    def filter_by_params visits

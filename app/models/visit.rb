@@ -1,5 +1,5 @@
 class Visit < ApplicationRecord
-   validates :schedule, presence: true
+   validates :scheduled_for, presence: true
    
    belongs_to :vet
    belongs_to :pet

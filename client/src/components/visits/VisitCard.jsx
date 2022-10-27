@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 
 function VisitCard (props) {
    const { visit } = props
-   const { pet, schedule, vet } = visit
+   const { pet, scheduled_for, vet } = visit
 
-   const appt = new Date(schedule)
+   const appt = new Date(scheduled_for)
    const navigate = useNavigate()
 
    const diagnosis = visit.diagnosis ? (<>seen for: {visit.diagnosis}<br /></>) : null

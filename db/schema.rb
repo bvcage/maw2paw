@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_24_210020) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_26_230735) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,14 +70,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_24_210020) do
   end
 
   create_table "visits", force: :cascade do |t|
-    t.datetime "schedule", precision: nil
-    t.datetime "checkin", precision: nil
+    t.datetime "scheduled_for", precision: nil
+    t.datetime "arrived_at", precision: nil
     t.string "diagnosis"
-    t.text "note"
     t.integer "vet_id"
     t.integer "pet_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "departed_at", precision: nil
+    t.integer "location"
+    t.string "reason"
+    t.integer "visit_type"
+    t.integer "status"
   end
 
 end

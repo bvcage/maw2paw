@@ -117,27 +117,41 @@ puts "🌱 seeding visits..."
 
 num_visits.times do
 
-   schedule = Faker::Time.between_dates(from: Date.today - 14, to: Date.today + 14, period: :day)
+   scheduled_for = Faker::Time.between_dates(from: Date.today - 14, to: Date.today + 14, period: :day)
+   reason = Faker::Quote.famous_last_words
 
-   checkin = nil
-   if schedule.today?
-      checkin = Faker::Time.between(from: DateTime.now - 1, to: DateTime.now + 1)
-   elsif schedule < Date.today
-      checkin = schedule
+   arrived_at = nil
+   departed_at = nil
+   if scheduled_for.today?
+      arrived_at = Faker::Time.between(from: DateTime.now - 1, to: DateTime.now + 1)
+   elsif scheduled_for < Date.today
+      arrived_at = scheduled_for
+      departed_at = arrived_at + 1.hour
    end
 
    diagnosis = nil
+   location = nil
    note = nil
-   if checkin
+   status = 1
+   if arrived_at
       diagnosis = Faker::Emotion.noun
-      note = Faker::Quote.famous_last_words
+      location = rand(1..5)
+      status = rand(1..5)
+   end
+   if departed_at
+      status = 5
+      location = nil
    end
 
    Visit.create({
-      schedule: schedule,
-      checkin: checkin,
+      scheduled_for: scheduled_for,
+      arrived_at: arrived_at,
+      departed_at: departed_at,
       diagnosis: diagnosis,
-      note: note,
+      location: location,
+      reason: reason,
+      status: status,
+      visit_type: rand(1..2),
       vet_id: rand(1..num_vets),
       pet_id: rand(1..num_pets)
    })

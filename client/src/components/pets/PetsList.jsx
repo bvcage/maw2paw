@@ -11,7 +11,10 @@ function PetsList (props) {
    }) : null
 
    return (
-      <div>{cards}</div>
+      <div>
+         <h3>pets list</h3>
+         {cards}
+      </div>
    )
 }
 

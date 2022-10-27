@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import OwnersList from '../owners/OwnersList'
 import PetProfile from './PetProfile'
 import VisitsList from '../visits/VisitsList'
 
@@ -16,6 +17,7 @@ function PetSummary (props) {
 
    return (<>
       <PetProfile pet={pet} />
+      <OwnersList owners={pet.owners} />
       <VisitsList visits={visits} />
    </>)
 }

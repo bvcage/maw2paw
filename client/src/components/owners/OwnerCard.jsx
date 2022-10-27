@@ -11,7 +11,8 @@ function OwnerCard (props) {
       <div className="card" onClick={() => navigate(`/main/owners/${id}`)}>
          <div className="card-content">
             <h5 className="card-title">{last_name}, {first_name}</h5>
-            <p>{phone}<br />{email}<br />{address}</p>
+            {phone ? <h6 className="card-subtitle">{phone}</h6> : null}
+            {email ? <h6 className="card-subtitle">{email}</h6> : null}
          </div>
       </div>
    )

@@ -9,6 +9,7 @@ function SignUp (props) {
 
    function handleSubmit (e) {
       e.preventDefault()
+      if (password !== confirmation) return
       fetch('/users', {
          method: 'POST',
          headers: {
@@ -16,8 +17,7 @@ function SignUp (props) {
          },
          body: JSON.stringify({
             "username": username,
-            "password": password,
-            "password_confirmation": confirmation
+            "password": password
          })
       }).then(r => {
          if (r.ok) {

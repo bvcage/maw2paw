@@ -42,31 +42,33 @@ function Login (props) {
    }
 
    return (
-      <form onSubmit={handleSubmit}>
-         <div className="form-floating">
-            <input
-               name="username"
-               type="text"
-               className="form-control"
-               placeholder="username"
-               value={username}
-               onChange={(e) => setUsername(e.target.value)}
-            />
-            <label>username</label>
-         </div>
-         <div className="form-floating">
-            <input
-               name="password"
-               type="password"
-               className="form-control"
-               placeholder="password"
-               value={password}
-               onChange={(e) => setPassword(e.target.value)}
-            />
-            <label>password</label>
-         </div>
-         <button type="submit">login</button>
-      </form>
+      <div className='container'>
+         <form className="login" onSubmit={handleSubmit}>
+            <div className="form-floating form-input">
+               <input
+                  name="username"
+                  type="text"
+                  className="form-control"
+                  placeholder="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+               />
+               <label>username</label>
+            </div>
+            <div className="form-floating form-input">
+               <input
+                  name="password"
+                  type="password"
+                  className="form-control"
+                  placeholder="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+               />
+               <label>password</label>
+            </div>
+            <button type="submit">login</button>
+         </form>
+      </div>
    )
 }
 

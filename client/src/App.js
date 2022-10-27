@@ -1,11 +1,8 @@
 import './App.css'
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import About from './components/About'
-import Home from './components/Home'
-import Login from './components/Login'
 import Main from './components/templates/Main'
-import SignUp from './components/SignUp'
+import Public from './components/templates/Public'
 
 function App () {
    const [user, setUser] = useState(null)
@@ -39,10 +36,7 @@ function App () {
    return (
       <div className="App">
          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="about" element={<About />} />
-            <Route path="login" element={<Login onLogin={onLogin} />} />
-            <Route path="signup" element={<SignUp onSignup={onSignup} />} />
+            <Route path="/*" element={<Public onLogin={onLogin} onSignup={onSignup} />} />
             <Route path="main/*" element={<Main onLogout={onLogout} user={user} />} />
          </Routes>
       </div>

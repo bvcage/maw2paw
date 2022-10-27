@@ -1,18 +1,62 @@
 html, body {
-   background-color: #5d6168;
+   background-image: linear-gradient(to bottom, rgb(120, 214, 240), rgb(56, 56, 170));
+   font-family: 'Source Sans Pro', sans-serif;
+   height: 100vh;
 }
 
-.button {
+/* containers */
+
+div.App {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+}
+
+div.card {
+   max-width: 250px;
+}
+
+div.container {
+   text-align: center;
+}
+
+/* forms */
+
+form {
+   display: grid;
+   margin: auto;
+}
+
+form.login {
+   min-width: 350px;
+   width: 40vw;
+}
+
+div.form-input {
+   margin: 0.5rem 1rem;
+}
+
+/* buttons */
+
+button, .button {
+   background-color: rgb(178, 178, 178);
+   border: none;
+   border-radius: 0.5rem;
+   display: inline-block;
+   margin: 0.5rem;
+   padding: 0.5rem 1rem;
+}
+
+.dropdown-button {
    border-radius: 0.2rem;
 }
 
-.button:hover {
+.dropdown-button:hover {
    background-color: aqua;
 }
 
-.card {
-   max-width: 250px;
-}
+/* dropdowns */
 
 .dropdown {
    position: relative;
@@ -29,4 +73,11 @@ html, body {
 
 .show {
    display: block;
+}
+
+/* headers & fonts */
+
+h1.logo {
+   color: rgb(236, 206, 35);
+   font-size: 4rem;
 }

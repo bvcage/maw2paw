@@ -1,19 +1,23 @@
+import "flatpickr/dist/themes/material_green.css"
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Flatpickr from 'react-flatpickr'
 
 function NewVisitForm (props) {
 
    const { onNewVisit } = props
 
    const today = new Date()
-   const [date, setDate] = useState(today.getFullYear() + "-" +
-      ( "0" + (today.getMonth() + 1) ).slice(-2) + "-" +
-      ( "0" + today.getDate() ).slice(-2) )
-   const [time, setTime] = useState("12:00")
+   today.setHours(12)
+   today.setMinutes(0)
+   today.setSeconds(0)
+
    const [owner, setOwner] = useState({full_name: ""})
    const [owners, setOwners] = useState([])
    const [pet, setPet] = useState({name: ""})
    const [pets, setPets] = useState([])
+   const [reason, setReason] = useState("")
+   const [schedule, setSchedule] = useState(new Date(today.getTime() + 86400000))
    const [vet, setVet] = useState(0)
    const [vets, setVets] = useState([])
 
@@ -21,11 +25,11 @@ function NewVisitForm (props) {
 
    const context = {
       "owners": owners,
-      "setDate": setDate,
-      "setTime": setTime,
       "setOwner": setOwner,
       "setOwners": setOwners,
       "setPet": setPet,
+      "setReason": setReason,
+      "setSchedule": setSchedule,
       "setVet": setVet
    }
 
@@ -70,7 +74,6 @@ function NewVisitForm (props) {
 
    function handleSubmit (e) {
       e.preventDefault()
-      const schedule = new Date(`${date} ${time}`).toISOString()
       fetch('/visits', {
          method: 'POST',
          headers: {
@@ -80,7 +83,8 @@ function NewVisitForm (props) {
             "pet_id": pet.id,
             "vet_id": vet,
             "scheduled_for": schedule,
-            "status": 1
+            "status": 1,
+            "reason": reason
          })
       }).then(r=>{
          if (r.ok) r.json().then(data => {
@@ -186,18 +190,31 @@ function NewVisitForm (props) {
          </select>
 
          <label>schedule</label>
-         <input 
-            name="date"
-            type="date"
-            disabled={!vet}
-            value={date}
-            onChange={handleChange} />
-         <input
-            name="time"
-            type="time"
-            disabled={!vet}
-            value={time}
-            onChange={handleChange} />
+         <Flatpickr
+            name="schedule"
+            data-enable-time
+            value={schedule}
+            onChange={handleChange}
+            options={{
+               minDate: today,
+               minTime: "08:00",
+               maxTime: "18:00",
+               minuteIncrement: 15
+            }} />
+
+         <h4>additional info</h4>
+
+         <div className="form-floating">
+            <input
+               name="reason"
+               type="textarea"
+               className="form-control"
+               placeholder="reason for visit"
+               rows={4}
+               value={reason}
+               onChange={handleChange} />
+            <label>reason for visit</label>
+         </div>
 
          <button type="submit">submit</button>
       </form>

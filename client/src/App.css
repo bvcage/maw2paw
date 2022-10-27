@@ -9,6 +9,10 @@ html, body {
    overflow: hidden;
 }
 
+h1, h2, h3, h4, h5, h6 {
+   text-align: center;
+}
+
 /* containers */
 
 div.App {
@@ -152,6 +156,8 @@ div#pet-summary button {
 form {
    display: grid;
    margin: auto;
+   position: relative;
+   text-align: left;
 }
 
 form.login {
@@ -165,6 +171,10 @@ form > * {
 
 div.form-input {
    margin: 0.5rem 1rem;
+}
+
+select.form-select, select.form-select > option {
+   width: auto;
 }
 
 /* buttons */
@@ -203,12 +213,19 @@ form > button {
 }
 
 .dropdown-content {
-   background-color: rgb(161, 161, 161);
+   background-color: rgb(178, 178, 178);
    display: none;
    max-height: 500px;
    overflow: auto;
+   padding: 0.2rem;
    position: absolute;
+   width: 100%;
    z-index: 1;
+}
+
+.dropdown-content > div:hover {
+   background-color: rgb(155, 155, 155);
+   font-weight: bold;
 }
 
 .show {

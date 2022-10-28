@@ -14,9 +14,9 @@ function PetOwnerList (props) {
 
    return (
       <div id="pet-owner-list-container">
-         { !!owner ? <h2>{owner.full_name}'s Pets</h2> : null}
+         { !!owner ? <h2>{owner.full_name}'s Pets</h2> : null }
          <div id="pet-owner-list">
-            { !!cards ? cards : "no relationships :("}
+            { !!cards ? cards : "no relationships :(" }
          </div>
       </div>
    )

@@ -25,12 +25,14 @@ function PetOwnerForm (props) {
    }
 
    return (
-      <div>
-         { !!owner ? <h2 style={{marginBottom: '0px'}}>{owner.full_name}'s</h2> : null }
+      <div id="pet-owner-form-container">
          { makeNew ? <>
                <PetForm owner={owner} pet={pet} onNewPetForOwner={handleNewPetForOwner} />
                <div className='button' onClick={() => setMakeNew(false)}>link existing</div>
-            </> : <PetsTable onClick={handleNewPetForOwner} /> }
+            </>
+            : <div id="pets-table-container">
+               <PetsTable onClick={handleNewPetForOwner} />
+               </div> }
       </div>
    )
 }

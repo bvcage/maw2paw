@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const LOCATIONS = ["", "waiting", "exam room 1", "exam room 2", "exam room 3", "exam room 4", "exam room 5"]
 const VISIT_STATUS = ["", "scheduled", "confirmed", "checked in", "in progress", "pending discharge", "complete"]
@@ -7,12 +7,14 @@ const VISIT_STATUS = ["", "scheduled", "confirmed", "checked in", "in progress",
 function VisitsTable (props) {
    const { showAll, visits, onEditVisit } = props
 
+   const location = useLocation()
+   const path = location.pathname.split('/')
    const navigate = useNavigate()
 
    const rows = visits.map(visit => {
       let apptDisplay
       const appt = new Date(visit.scheduled_for)
-      if (showAll) apptDisplay = appt.toLocaleDateString("en-US", {year:'numeric', month:'short', day:'numeric'})
+      if (showAll) apptDisplay = appt.toLocaleDateString("en-US", {year:'numeric', month:'numeric', day:'numeric'})
       else apptDisplay = appt.toLocaleTimeString("en-US", {hour:'numeric', minute:'numeric'})
 
       const locationDisplay = (<div className="button"
@@ -25,9 +27,9 @@ function VisitsTable (props) {
          )
       })
 
-      const ownersList = visit.owners.map(owner => owner.full_name).join(', ')
+      const ownersList = visit.owners.map(owner => owner.full_name).join('\n')
 
-      const reasonDisplay = !!visit.reason && visit.reason.length > 20 ? visit.reason.slice(0,20) + '...' : visit.reason
+      const reasonDisplay = !!visit.reason && visit.reason.length > 20 && !path.includes("all") ? visit.reason.slice(0,20) + '...' : visit.reason
 
       const statusDisplay = <div className="button" onClick={(e) => handleClick(e, visit, "status")}>{!!visit.status ? VISIT_STATUS[visit.status] : VISIT_STATUS[1]}</div>
       const statusOptions = VISIT_STATUS.map((status, i) => {
@@ -40,24 +42,26 @@ function VisitsTable (props) {
          <tr key={visit.id} onClick={() => navigate(`/main/visits/${visit.id}`)}>
             <th scope="row">{apptDisplay}</th>
             <td>{visit.pet.name}</td>
-            <td>{ownersList}</td>
+            <td style={{whiteSpace: "pre"}}>{ownersList}</td>
             <td>{reasonDisplay}</td>
-            <td>
-               <div className="dropdown">
-                  {statusDisplay}
-                  <div id={`visitStatusDropdown${visit.id}`} className="dropdown-content">
-                     {statusOptions}
+            {path.includes("all") ? null : <>
+               <td>
+                  <div className="dropdown">
+                     {statusDisplay}
+                     <div id={`visitStatusDropdown${visit.id}`} className="dropdown-content">
+                        {statusOptions}
+                     </div>
                   </div>
-               </div>
-            </td>
-            <td>
-               <div className='dropdown'>
-                  {!!visit.location ? locationDisplay : null}
-                  <div id={`locationDropdown${visit.id}`} className="dropdown-content">
-                     {locationOptions}
+               </td>
+               <td>
+                  <div className='dropdown'>
+                     {!!visit.location ? locationDisplay : null}
+                     <div id={`locationDropdown${visit.id}`} className="dropdown-content">
+                        {locationOptions}
+                     </div>
                   </div>
-               </div>
-            </td>
+               </td>
+            </>}
             <td>{visit.vet.initials}</td>
          </tr>
       )
@@ -94,22 +98,28 @@ function VisitsTable (props) {
    }
 
    return (
-      <table className="table">
-         <thead>
-            <tr>
-               <th scope="col">date / time</th>
-               <th scope="col">pet</th>
-               <th scope="col">owner(s)</th>
-               <th scope="col">reason</th>
-               <th scope="col">status</th>
-               <th scope="col">location</th>
-               <th scope="col">vet</th>
-            </tr>
-         </thead>
-         <tbody>
-            {rows}
-         </tbody>
-      </table>
+      <div id="visits-table-container">
+         <div id="visits-table">
+            <table className="table">
+               <thead>
+                  <tr>
+                     <th scope="col">date / time</th>
+                     <th scope="col">pet</th>
+                     <th scope="col" style={{maxWidth: "200px", whiteSpace: "pre"}}>owner(s)</th>
+                     <th scope="col">reason</th>
+                     {path.includes("all") ? null : <>
+                        <th scope="col">status</th>
+                        <th scope="col">location</th>
+                     </>}
+                     <th scope="col" width="auto">vet</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {rows}
+               </tbody>
+            </table>
+         </div>
+      </div>
    )
 }
 

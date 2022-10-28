@@ -3,7 +3,7 @@ import { Route, Routes, useParams } from 'react-router-dom'
 import VisitSummary from './VisitSummary'
 
 function VisitPage (props) {
-   const { onEndVisit } = props
+   const { user, onEndVisit } = props
 
    const params = useParams()
    const [visit, setVisit] = useState({})
@@ -22,7 +22,7 @@ function VisitPage (props) {
 
    return (
       <Routes>
-         <Route index element={<VisitSummary visit={visit} setVisit={setVisit} onEndVisit={handleEndVisit} />} />
+         <Route index element={<VisitSummary visit={visit} user={user} onEndVisit={handleEndVisit} />} />
       </Routes>
    )
 }

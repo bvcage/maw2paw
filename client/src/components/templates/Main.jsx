@@ -75,7 +75,7 @@ function Main (props) {
             element={<PetsPage pets={pets}
                onEditPet={onEditPet}
                onNewPet={onNewPet} />} />
-         <Route path="visits/*" element={<VisitsPage owners={owners} pets={pets} />} />
+         <Route path="visits/*" element={<VisitsPage user={user} />} />
       </Routes>
       </div>
       <Footer />

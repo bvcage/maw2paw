@@ -5,6 +5,7 @@ import VisitPage from './VisitPage'
 import VisitsTable from './VisitsTable'
 
 function VisitsPage (props) {
+   const { user } = props
 
    const [visits, setVisits] = useState([])
 
@@ -42,7 +43,7 @@ function VisitsPage (props) {
             <Route index element={<VisitsTable visits={todaysVisits} showAll={false} onEditVisit={onEditVisit} />} />
             <Route path="all" element={<VisitsTable visits={visits} showAll={true} />} />
             <Route path="new" element={<NewVisitForm onNewVisit={onNewVisit} />} />
-            <Route path=":id/*" element={<VisitPage onEndVisit={onEditVisit} />} />
+            <Route path=":id/*" element={<VisitPage onEndVisit={onEditVisit} user={user} />} />
          </Routes>
       </div>
    )

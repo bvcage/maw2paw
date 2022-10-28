@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 function VisitSummary (props) {
-   const { onEndVisit } = props
+   const { user, visit: passed, onEndVisit } = props
    const params = useParams()
 
    const [edit, setEdit] = useState(false)
@@ -19,7 +19,11 @@ function VisitSummary (props) {
    }, [params.id])
 
    function endVisit (e) {
-      const end = {...visit, location: 1, status: 5}
+      const end = {...visit,
+         location: 1,
+         status: 5,
+         completed_by: user.id
+      }
       setVisit(end)
       handleSubmit(e)
       onEndVisit(end)
@@ -35,19 +39,35 @@ function VisitSummary (props) {
    function handleSubmit (e) {
       e.preventDefault()
       setEdit(false)
+      const patch = makePatch()
       fetch(`/visits/${visit.id}`, {
          method: 'PATCH',
          headers: {
             'Content-Type': 'application/json'
          },
-         body: JSON.stringify(visit)
+         body: JSON.stringify(patch)
       }).then(r=>{
          if (r.ok) r.json().then(setVisit)
          else console.log('error')
       })
    }
 
-   const editBtn = <button type="button" onClick={() => setEdit(true)}>edit</button>
+   function makePatch () {
+      const patch = {...visit,
+         location: 1,
+         status: 5,
+         completed_by: user.id,
+         pet_id: visit.pet.id,
+         vet_id: visit.vet.id
+      }
+      delete patch["pet"]
+      delete patch["vet"]
+      delete patch["owners"]
+      delete patch["departed_at"]
+      return patch
+   }
+
+   const editBtn = <button type="button" onClick={() => parseInt(user.id) === visit.completed_by ? setEdit(true) : setEdit(false) }>edit</button>
    const saveBtn = <button type="submit">save</button>
 
    if (!visit ||

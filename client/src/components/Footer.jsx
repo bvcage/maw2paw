@@ -6,7 +6,7 @@ function Footer (props) {
    const loc = useLocation()
    const path = loc.pathname.split('/')
 
-   const backBtn = path.length > 3 ? <button onClick={() => navigate(-1)}>back</button> : null
+   const backBtn = path.length > 3 && !path.includes("all") ? <button onClick={() => navigate(-1)}>back</button> : null
 
    return (
       <div id="footer">

@@ -29,7 +29,18 @@ class VisitsController < ApplicationController
    private
 
    def visit_params
-      params.permit(:pet_id, :vet_id, :scheduled_for)
+      params.permit(
+         :pet_id,
+         :vet_id,
+         :scheduled_for,
+         :diagnosis,
+         :arrived_at,
+         :departed_at,
+         :location,
+         :reason,
+         :status,
+         :completed_by
+      )
    end
 
    def filter_by_params visits
